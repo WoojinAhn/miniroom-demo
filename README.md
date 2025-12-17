@@ -5,7 +5,7 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 
 🔗 **데모 사이트 (Live Demo)**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
 
-> **(2025.12.17 업데이트)**: 픽셀 아트 그래픽 적용, 회전/반전 기능 추가!
+> **(2025.12.17 업데이트 v1.2)**: 픽셀 아트 그래픽 적용, 회전/반전 기능 추가, 선택 버그 수정 완료!
 
 ![Miniroom Demo](public/miniroom-preview.png)
 
