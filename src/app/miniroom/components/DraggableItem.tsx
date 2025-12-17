@@ -19,7 +19,6 @@ interface DraggableItemProps {
     onSelect: () => void;
     onRotate: () => void;
     onFlip: () => void;
-    onFlip: () => void;
     onScale: (delta: number) => void;
     zIndex?: number;
 }
@@ -30,10 +29,8 @@ export const DraggableItem = ({
     onUpdate,
     onDelete,
     bounds,
-    isSelected,
     onSelect,
     onRotate,
-    onFlip,
     onFlip,
     onScale,
     zIndex,
