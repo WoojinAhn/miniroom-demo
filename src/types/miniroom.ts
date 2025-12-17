@@ -5,6 +5,7 @@ export interface Item {
     width: number; // in pixels
     height: number; // in pixels
     color: string; // CSS color for placeholder
+    imageUrl?: string; // Path to pixel art asset
 }
 
 export interface PlacedItem {

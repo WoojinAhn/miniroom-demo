@@ -42,7 +42,7 @@ export const DraggableItem = ({
                 top: item.posY,
                 width: itemDef.width,
                 height: itemDef.height,
-                backgroundColor: itemDef.color,
+                backgroundColor: itemDef.imageUrl ? "transparent" : itemDef.color,
                 cursor: "move",
                 userSelect: "none",
                 touchAction: "none", // Critical for pointer events
@@ -56,7 +56,20 @@ export const DraggableItem = ({
                 boxShadow: "0 2px 5px rgba(0,0,0,0.2)",
             }}
         >
-            {itemDef.name}
+            {itemDef.imageUrl ? (
+                <img
+                    src={itemDef.imageUrl}
+                    alt={itemDef.name}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        pointerEvents: "none", // Prevent image dragging interference
+                    }}
+                />
+            ) : (
+                itemDef.name
+            )}
         </div>
     );
 };

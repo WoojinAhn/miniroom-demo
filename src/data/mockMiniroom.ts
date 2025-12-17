@@ -5,9 +5,10 @@ export const AVAILABLE_ITEMS: Item[] = [
         id: "item_chair_red",
         name: "Red Chair",
         type: "furniture",
-        width: 50,
-        height: 50,
+        width: 60, // Adjusted width for pixel art
+        height: 60,
         color: "#e74c3c",
+        imageUrl: "/items/chair.png",
     },
     {
         id: "item_table_wood",
@@ -16,6 +17,7 @@ export const AVAILABLE_ITEMS: Item[] = [
         width: 100,
         height: 60,
         color: "#d35400",
+        imageUrl: "/items/table.png",
     },
     {
         id: "item_rug_blue",
