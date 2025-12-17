@@ -5,9 +5,15 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.4.4";
+export const APP_VERSION = "v1.4.5";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.4.5",
+        date: "2025-12-17",
+        features: ["Asset Update: Updated Red Chair image with user-provided asset"],
+        fixes: [],
+    },
     {
         version: "v1.4.4",
         date: "2025-12-17",
