@@ -43,6 +43,33 @@ export const AVAILABLE_ITEMS: Item[] = [
         height: 50,
         color: "#34495e",
     },
+    {
+        id: "item_cha01",
+        name: "Character 01",
+        type: "character",
+        width: 60,
+        height: 120,
+        color: "#transparent",
+        imageUrl: "/items/cha01.png",
+    },
+    {
+        id: "item_cha02",
+        name: "Character 02",
+        type: "character",
+        width: 60,
+        height: 120,
+        color: "#transparent",
+        imageUrl: "/items/cha02.png",
+    },
+    {
+        id: "item_cha03",
+        name: "Character 03",
+        type: "character",
+        width: 60,
+        height: 120,
+        color: "#transparent",
+        imageUrl: "/items/cha03.png",
+    },
 ];
 
 export const INITIAL_ROOM: Room = {
@@ -67,6 +94,15 @@ export const INITIAL_ROOM: Room = {
             itemId: "item_plant_pot",
             posX: 600,
             posY: 100,
+            rotation: 0,
+            isFlipped: false,
+            scale: 1,
+        },
+        {
+            instanceId: "inst_cha01_default",
+            itemId: "item_cha01",
+            posX: 345, // (750-60)/2
+            posY: 243, // (606-120)/2
             rotation: 0,
             isFlipped: false,
             scale: 1,

@@ -9,6 +9,12 @@ export const APP_VERSION = "v1.4.6";
 
 export const CHANGELOG: ReleaseNote[] = [
     {
+        version: "v1.4.7",
+        date: "2025-12-18",
+        features: ["Added 3 Character assets", "Set default character placement in room center"],
+        fixes: [],
+    },
+    {
         version: "v1.4.6",
         date: "2025-12-17",
         features: [],

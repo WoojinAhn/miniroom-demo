@@ -1,7 +1,7 @@
 export interface Item {
     id: string; // "item_chair_01"
     name: string;
-    type: 'furniture' | 'decoration' | 'electronics';
+    type: 'furniture' | 'decoration' | 'electronics' | 'character';
     width: number; // in pixels
     height: number; // in pixels
     color: string; // CSS color for placeholder

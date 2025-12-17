@@ -83,7 +83,10 @@ export default function MiniroomPage() {
             height={currentBackground.height}
           />
         </div>
-        <Inventory items={AVAILABLE_ITEMS} onAddItem={placeItem} />
+        <Inventory
+          items={AVAILABLE_ITEMS.filter((i) => i.type !== "character")}
+          onAddItem={placeItem}
+        />
       </main>
 
       {/* Changelog Modal */}
