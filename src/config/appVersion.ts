@@ -5,9 +5,14 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.4.0";
+export const APP_VERSION = "v1.4.1";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.4.1",
+        date: "2025-12-17",
+        fixes: ["Fixed issue where items disappeared when zoomed in too much (removed overflow clipping)"],
+    },
     {
         version: "v1.4.0",
         date: "2025-12-17",

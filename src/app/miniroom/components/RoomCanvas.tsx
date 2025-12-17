@@ -45,7 +45,7 @@ export const RoomCanvas = ({
                 backgroundColor: room.background,
                 position: "relative",
                 border: "1px solid #ccc",
-                overflow: "hidden", // Clip items
+                // overflow: "hidden", // Removed to allow unlimited scaling without clipping
             }}
         >
             {room.items.map((item) => {
