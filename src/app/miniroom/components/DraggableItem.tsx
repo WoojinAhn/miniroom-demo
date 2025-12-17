@@ -29,6 +29,7 @@ export const DraggableItem = ({
     onUpdate,
     onDelete,
     bounds,
+    isSelected,
     onSelect,
     onRotate,
     onFlip,
