@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.3.0";
+export const APP_VERSION = "v1.4.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.4.0",
+        date: "2025-12-17",
+        features: [
+            "UX Refinement: Removed Item Scale Limit (Unlimited Grow)",
+            "UX Refinement: Smart Toolbar (Fixed size & Dynamic positioning)",
+        ],
+    },
     {
         version: "v1.3.0",
         date: "2025-12-17",
