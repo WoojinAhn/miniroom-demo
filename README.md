@@ -5,7 +5,7 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 
 🔗 **데모 사이트 (Live Demo)**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
 
-> **(2025.12.17 업데이트 v1.4.3)**: 이미지 선택 시 네모난 박스 대신 자연스러운 외곽선(Shape Outline) 적용!
+> **(2025.12.17 업데이트 v1.4.4)**: 아이템 이미지 투명 배경 적용 완료! (체크무늬 배경 제거)
 
 ![Miniroom Demo](public/miniroom-preview.png)
 
