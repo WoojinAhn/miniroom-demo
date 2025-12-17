@@ -8,6 +8,10 @@ interface RoomCanvasProps {
     availableItems: Item[];
     onUpdateItem: (id: string, x: number, y: number) => void;
     onDeleteItem: (id: string) => void;
+    selectedItemId: string | null;
+    onSelectItem: (id: string) => void;
+    onRotateItem: (id: string) => void;
+    onFlipItem: (id: string) => void;
 }
 
 export const ROOM_WIDTH = 800;
@@ -18,6 +22,10 @@ export const RoomCanvas = ({
     availableItems,
     onUpdateItem,
     onDeleteItem,
+    selectedItemId,
+    onSelectItem,
+    onRotateItem,
+    onFlipItem,
 }: RoomCanvasProps) => {
     return (
         <div
@@ -41,6 +49,10 @@ export const RoomCanvas = ({
                         onUpdate={onUpdateItem}
                         onDelete={onDeleteItem}
                         bounds={{ width: ROOM_WIDTH, height: ROOM_HEIGHT }}
+                        isSelected={selectedItemId === item.instanceId}
+                        onSelect={() => onSelectItem(item.instanceId)}
+                        onRotate={() => onRotateItem(item.instanceId)}
+                        onFlip={() => onFlipItem(item.instanceId)}
                     />
                 );
             })}

@@ -21,6 +21,7 @@ const useDebounce = (value: any, delay: number) => {
 
 export const useMiniroom = () => {
     const [room, setRoom] = useState<Room>(INITIAL_ROOM);
+    const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
     const [isSaving, setIsSaving] = useState(false);
 
     // Auto-save trigger
@@ -50,12 +51,15 @@ export const useMiniroom = () => {
             itemId: itemId,
             posX: 400 - itemDef.width / 2, // Center X (assuming 800 width)
             posY: 300 - itemDef.height / 2, // Center Y (assuming 600 height)
+            rotation: 0,
+            isFlipped: false,
         };
 
         setRoom((prev) => ({
             ...prev,
             items: [...prev.items, newItem], // Push to end (top layer)
         }));
+        setSelectedItemId(newItem.instanceId);
     }, []);
 
     const moveItem = useCallback((instanceId: string, x: number, y: number) => {
@@ -72,6 +76,31 @@ export const useMiniroom = () => {
             ...prev,
             items: prev.items.filter((item) => item.instanceId !== instanceId),
         }));
+        if (selectedItemId === instanceId) {
+            setSelectedItemId(null);
+        }
+    }, [selectedItemId]);
+
+    const rotateItem = useCallback((instanceId: string) => {
+        setRoom((prev) => ({
+            ...prev,
+            items: prev.items.map((item) =>
+                item.instanceId === instanceId
+                    ? { ...item, rotation: (item.rotation + 90) % 360 }
+                    : item
+            ),
+        }));
+    }, []);
+
+    const flipItem = useCallback((instanceId: string) => {
+        setRoom((prev) => ({
+            ...prev,
+            items: prev.items.map((item) =>
+                item.instanceId === instanceId
+                    ? { ...item, isFlipped: !item.isFlipped }
+                    : item
+            ),
+        }));
     }, []);
 
     return {
@@ -81,5 +110,9 @@ export const useMiniroom = () => {
         removeItem,
         isSaving,
         AVAILABLE_ITEMS,
+        selectedItemId,
+        setSelectedItemId,
+        rotateItem,
+        flipItem,
     };
 };

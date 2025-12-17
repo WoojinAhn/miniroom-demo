@@ -13,6 +13,8 @@ export interface PlacedItem {
     itemId: string; // Refers to Item.id
     posX: number;
     posY: number;
+    rotation: number; // 0, 90, 180, 270
+    isFlipped: boolean;
 }
 
 export interface Room {

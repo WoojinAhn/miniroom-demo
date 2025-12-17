@@ -5,8 +5,18 @@ import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
 
 export default function MiniroomPage() {
-  const { room, addItem, moveItem, removeItem, isSaving, AVAILABLE_ITEMS } =
-    useMiniroom();
+  const {
+    room,
+    addItem,
+    moveItem,
+    removeItem,
+    isSaving,
+    AVAILABLE_ITEMS,
+    selectedItemId,
+    setSelectedItemId,
+    rotateItem,
+    flipItem,
+  } = useMiniroom();
 
   return (
     <div className="min-h-screen bg-gray-100 p-8 font-sans">
@@ -36,6 +46,10 @@ export default function MiniroomPage() {
           availableItems={AVAILABLE_ITEMS}
           onUpdateItem={moveItem}
           onDeleteItem={removeItem}
+          selectedItemId={selectedItemId}
+          onSelectItem={setSelectedItemId}
+          onRotateItem={rotateItem}
+          onFlipItem={flipItem}
         />
         <Inventory items={AVAILABLE_ITEMS} onAddItem={addItem} />
       </main>
