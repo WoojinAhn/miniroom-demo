@@ -108,7 +108,7 @@ export const useMiniroom = () => {
                 item.instanceId === instanceId
                     ? {
                         ...item,
-                        scale: Math.max(0.5, Math.min(2.0, item.scale + delta)), // Limit 0.5x to 2.0x
+                        scale: Math.max(0.2, item.scale + delta), // Limit min 0.2x, No Max Limit
                     }
                     : item
             ),
