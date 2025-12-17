@@ -139,6 +139,7 @@ export const DraggableItem = ({
                         whiteSpace: "nowrap", // Prevent wrapping
                     }}
                     onPointerDown={stopPropagation}
+                    onDoubleClick={(e) => e.stopPropagation()} // Prevent double-click on toolbar from deleting the item
                 >
                     <button
                         onClick={onRotate}

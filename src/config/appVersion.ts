@@ -5,9 +5,15 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.4.1";
+export const APP_VERSION = "v1.4.2";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.4.2",
+        date: "2025-12-17",
+        features: [],
+        fixes: ["Fixed critical bug where rapid clicking on toolbar buttons triggered item deletion"],
+    },
     {
         version: "v1.4.1",
         date: "2025-12-17",
