@@ -3,8 +3,11 @@
 import { useMiniroom } from "@/app/miniroom/hooks/useMiniroom";
 import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
+import { ChangelogModal } from "@/app/miniroom/components/ChangelogModal";
+import { APP_VERSION, CHANGELOG } from "@/config/appVersion";
 
 export default function MiniroomPage() {
+  const [isChangelogOpen, setIsChangelogOpen] = useState(false);
   const {
     room,
     addItem,
@@ -23,8 +26,15 @@ export default function MiniroomPage() {
     <div className="min-h-screen bg-gray-100 p-8 font-sans">
       <header className="mb-6 flex justify-between items-center max-w-5xl mx-auto">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">
-            Miniroom Maker <span className="text-sm text-blue-600">(Pixel Art! v1.2)</span>
+          <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+            Miniroom Maker
+            <button
+              onClick={() => setIsChangelogOpen(true)}
+              className="text-xs font-mono bg-blue-100 text-blue-700 px-2 py-1 rounded-full hover:bg-blue-200 transition"
+              title="Click to see what's new"
+            >
+              {APP_VERSION}
+            </button>
           </h1>
           <p className="text-gray-500">
             Drag to move • Double click to remove • Auto-saving...
@@ -56,6 +66,13 @@ export default function MiniroomPage() {
         />
         <Inventory items={AVAILABLE_ITEMS} onAddItem={addItem} />
       </main>
+
+      {/* Changelog Modal */}
+      <ChangelogModal
+        isOpen={isChangelogOpen}
+        onClose={() => setIsChangelogOpen(false)}
+        changelog={CHANGELOG}
+      />
     </div>
   );
 }
