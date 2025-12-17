@@ -19,7 +19,9 @@ interface DraggableItemProps {
     onSelect: () => void;
     onRotate: () => void;
     onFlip: () => void;
+    onFlip: () => void;
     onScale: (delta: number) => void;
+    zIndex?: number;
 }
 
 export const DraggableItem = ({
@@ -32,7 +34,9 @@ export const DraggableItem = ({
     onSelect,
     onRotate,
     onFlip,
+    onFlip,
     onScale,
+    zIndex,
 }: DraggableItemProps) => {
     const handleDrag = (dx: number, dy: number) => {
         let newX = item.posX + dx;
@@ -75,7 +79,9 @@ export const DraggableItem = ({
                 // If we scale Outer width/height, the toolbar position relative to it is fine, 
                 // but then we must counter-scale toolbar.
                 // Let's stick to the Plan: Sibling.
-                zIndex: isSelected ? 10 : 1,
+                // but then we must counter-scale toolbar.
+                // Let's stick to the Plan: Sibling.
+                zIndex: isSelected ? 9999 : (zIndex || 1),
                 transition: "transform 0.2s ease-in-out",
             }}
         >

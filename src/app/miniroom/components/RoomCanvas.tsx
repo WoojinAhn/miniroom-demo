@@ -64,6 +64,9 @@ export const RoomCanvas = ({
                         onRotate={() => onRotateItem(item.instanceId)}
                         onFlip={() => onFlipItem(item.instanceId)}
                         onScale={(delta) => onScaleItem(item.instanceId, delta)}
+                        // Depth Sorting: Lower Y (higher up) = Background. Higher Y (lower down) = Foreground.
+                        // We use (posY + height) to align by the "feet" of the item.
+                        zIndex={Math.floor(item.posY + (itemDef.height * (item.scale || 1)))}
                     />
                 );
             })}

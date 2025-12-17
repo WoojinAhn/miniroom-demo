@@ -5,9 +5,14 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.4.5";
+export const APP_VERSION = "v1.4.6";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.4.6",
+        date: "2025-12-17",
+        fixes: ["Fixed Z-Index layering issue: Items now sort naturally by depth (Y-position)"],
+    },
     {
         version: "v1.4.5",
         date: "2025-12-17",

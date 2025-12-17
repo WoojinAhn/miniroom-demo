@@ -5,7 +5,7 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 
 🔗 **데모 사이트 (Live Demo)**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
 
-> **(2025.12.17 업데이트 v1.4.5)**: 사용자 요청으로 빨간 의자 이미지 교체 완료!
+> **(2025.12.17 업데이트 v1.4.6)**: 아이템 앞뒤 순서 자동 정렬(Depth Sorting) 적용!
 
 ![Miniroom Demo](public/miniroom-preview.png)
 
