@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { useMiniroom } from "@/app/miniroom/hooks/useMiniroom";
 import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
