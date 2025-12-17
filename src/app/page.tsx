@@ -12,7 +12,9 @@ export default function MiniroomPage() {
     <div className="min-h-screen bg-gray-100 p-8 font-sans">
       <header className="mb-6 flex justify-between items-center max-w-5xl mx-auto">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Miniroom Maker</h1>
+          <h1 className="text-2xl font-bold text-gray-800">
+            Miniroom Maker <span className="text-sm text-blue-600">(Pixel Art!)</span>
+          </h1>
           <p className="text-gray-500">
             Drag to move • Double click to remove • Auto-saving...
           </p>
