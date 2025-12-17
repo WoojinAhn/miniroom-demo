@@ -19,14 +19,26 @@ export const Inventory = ({ items, onAddItem }: InventoryProps) => {
                         className="flex flex-col items-center p-2 border border-gray-100 rounded hover:bg-gray-50 transition"
                     >
                         <div
-                            className="mb-2"
+                            className="mb-2 relative"
                             style={{
-                                width: 30,
-                                height: 30,
-                                backgroundColor: item.color,
+                                width: 40,
+                                height: 40,
+                                backgroundColor: item.imageUrl ? "transparent" : item.color,
                                 borderRadius: "4px",
                             }}
-                        />
+                        >
+                            {item.imageUrl && (
+                                <img
+                                    src={item.imageUrl}
+                                    alt={item.name}
+                                    style={{
+                                        width: "100%",
+                                        height: "100%",
+                                        objectFit: "contain",
+                                    }}
+                                />
+                            )}
+                        </div>
                         <span className="text-xs text-center">{item.name}</span>
                     </button>
                 ))}
