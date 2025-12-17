@@ -11,6 +11,7 @@ export const CHANGELOG: ReleaseNote[] = [
     {
         version: "v1.4.1",
         date: "2025-12-17",
+        features: [],
         fixes: ["Fixed issue where items disappeared when zoomed in too much (removed overflow clipping)"],
     },
     {
