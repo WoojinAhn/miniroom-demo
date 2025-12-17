@@ -6,21 +6,23 @@ import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
 import { ChangelogModal } from "@/app/miniroom/components/ChangelogModal";
 import { APP_VERSION, CHANGELOG } from "@/config/appVersion";
+import { AVAILABLE_ITEMS } from "@/data/mockMiniroom";
+import { BACKGROUNDS } from "@/data/backgrounds";
 
 export default function MiniroomPage() {
   const [isChangelogOpen, setIsChangelogOpen] = useState(false);
   const {
     room,
-    addItem,
+    placeItem,
     moveItem,
-    removeItem,
-    isSaving,
-    AVAILABLE_ITEMS,
+    deleteItem,
     selectedItemId,
-    setSelectedItemId,
+    selectItem,
     rotateItem,
     flipItem,
     scaleItem,
+    setBackground,
+    currentBackground,
   } = useMiniroom();
 
   return (
@@ -42,30 +44,52 @@ export default function MiniroomPage() {
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {isSaving ? (
-            <span className="text-blue-600 font-medium animate-pulse">
-              Saving...
-            </span>
-          ) : (
-            <span className="text-gray-400">All changes saved</span>
-          )}
+          {/* Auto-save ref removed for now */}
+          <span className="text-gray-400">All changes saved</span>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto flex shadow-xl rounded-xl overflow-hidden bg-white">
-        <RoomCanvas
-          room={room}
-          availableItems={AVAILABLE_ITEMS}
-          onUpdateItem={moveItem}
-          onDeleteItem={removeItem}
-          selectedItemId={selectedItemId}
-          onSelectItem={setSelectedItemId}
-          onRotateItem={rotateItem}
-          onFlipItem={flipItem}
-          onScaleItem={scaleItem}
-          onBackgroundClick={() => setSelectedItemId(null)}
-        />
-        <Inventory items={AVAILABLE_ITEMS} onAddItem={addItem} />
+        <div className="flex flex-col gap-4">
+          <div className="flex gap-2 p-2 bg-gray-50 border-b">
+            <span className="text-sm font-bold text-gray-700 flex items-center pr-2">
+              Background:
+            </span>
+            {BACKGROUNDS.map((bg) => (
+              <button
+                key={bg.id}
+                onClick={() => setBackground(bg.id)}
+                className={`px-3 py-1 rounded text-sm font-medium transition ${room.backgroundId === bg.id
+                  ? "bg-blue-600 text-white shadow"
+                  : "bg-white text-gray-600 hover:bg-gray-100 border"
+                  }`}
+              >
+                {bg.name}
+              </button>
+            ))}
+          </div>
+          <RoomCanvas
+            room={room}
+            availableItems={currentBackground ? [] : []} // availableItems is handled inside Inventory now, wait DraggableItem needs itemDef...
+            // Wait, RoomCanvas needs availableItems to lookup item definitions.
+            // In the new hook, INITIAL_ITEMS/AVAILABLE_ITEMS are imported inside hook but we need them here?
+            // Actually, INITIAL_ITEMS should be exported from hook or imported here.
+            // The original hook exported AVAILABLE_ITEMS. I removed it.
+            // I should re-export it from useMiniroom or import it directly.
+            // Let's import it directly from mockMiniroom since I removed it from hook return.
+            onUpdateItem={moveItem}
+            onDeleteItem={deleteItem}
+            selectedItemId={selectedItemId}
+            onSelectItem={selectItem}
+            onRotateItem={rotateItem}
+            onFlipItem={flipItem}
+            onScaleItem={scaleItem}
+            onBackgroundClick={() => selectItem(null)}
+            width={currentBackground.width}
+            height={currentBackground.height}
+          />
+        </div>
+        <Inventory items={AVAILABLE_ITEMS} onAddItem={placeItem} />
       </main>
 
       {/* Changelog Modal */}

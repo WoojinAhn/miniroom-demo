@@ -49,6 +49,7 @@ export const INITIAL_ROOM: Room = {
     id: "room_001",
     userId: "user_choco",
     name: "My Sweet Miniroom",
+    backgroundId: "bg_room",
     background: "#ecf0f1", // Light gray background
     lastUpdated: new Date().toISOString(),
     items: [

@@ -22,7 +22,8 @@ export interface Room {
     id: string;
     userId: string;
     name: string;
-    background: string; // CSS color or image URL
+    background: string; // Keep for color fallback? Or maybe remove later.
+    backgroundId: string; // ID from BACKGROUNDS
     items: PlacedItem[]; // Render order = Array order
     lastUpdated: string; // ISO Date
 }

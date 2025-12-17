@@ -14,10 +14,9 @@ interface RoomCanvasProps {
     onFlipItem: (id: string) => void;
     onScaleItem: (id: string, delta: number) => void;
     onBackgroundClick: () => void;
+    width: number;
+    height: number;
 }
-
-export const ROOM_WIDTH = 800;
-export const ROOM_HEIGHT = 600;
 
 export const RoomCanvas = ({
     room,
@@ -30,6 +29,8 @@ export const RoomCanvas = ({
     onFlipItem,
     onScaleItem,
     onBackgroundClick,
+    width,
+    height,
 }: RoomCanvasProps) => {
     return (
         <div
@@ -40,11 +41,15 @@ export const RoomCanvas = ({
                 }
             }}
             style={{
-                width: ROOM_WIDTH,
-                height: ROOM_HEIGHT,
-                backgroundColor: room.background,
+                width: width,
+                height: height,
+                backgroundImage: `url(${room.background})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundColor: "#f0f0f0", // Fallback
                 position: "relative",
                 border: "1px solid #ccc",
+                transition: "width 0.3s ease-in-out, height 0.3s ease-in-out",
                 // overflow: "hidden", // Removed to allow unlimited scaling without clipping
             }}
         >
@@ -58,7 +63,7 @@ export const RoomCanvas = ({
                         itemDef={itemDef}
                         onUpdate={onUpdateItem}
                         onDelete={onDeleteItem}
-                        bounds={{ width: ROOM_WIDTH, height: ROOM_HEIGHT }}
+                        bounds={{ width, height }}
                         isSelected={selectedItemId === item.instanceId}
                         onSelect={() => onSelectItem(item.instanceId)}
                         onRotate={() => onRotateItem(item.instanceId)}
