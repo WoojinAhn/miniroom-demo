@@ -5,9 +5,15 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.4.2";
+export const APP_VERSION = "v1.4.3";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.4.3",
+        date: "2025-12-17",
+        features: ["Visual Refinement: Replaced rectangular selection box with shape-conforming drop-shadow for images"],
+        fixes: [],
+    },
     {
         version: "v1.4.2",
         date: "2025-12-17",

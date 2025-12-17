@@ -94,9 +94,9 @@ export const DraggableItem = ({
                     fontWeight: "bold",
                     transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
                     transition: "transform 0.2s ease-in-out",
-                    // Outline on the VISUAL part
-                    outline: isSelected ? "2px solid #3b82f6" : "none",
-                    boxShadow: isSelected ? "0 0 10px rgba(59, 130, 246, 0.5)" : "none",
+                    // Outline only for non-image items (text placeholders)
+                    outline: isSelected && !itemDef.imageUrl ? "2px solid #3b82f6" : "none",
+                    boxShadow: isSelected && !itemDef.imageUrl ? "0 0 10px rgba(59, 130, 246, 0.5)" : "none",
                 }}
             >
                 {itemDef.imageUrl ? (
@@ -109,6 +109,8 @@ export const DraggableItem = ({
                             height: "100%",
                             objectFit: "contain",
                             pointerEvents: "none",
+                            // Use drop-shadow for selection to contour the pixel art shape
+                            filter: isSelected ? "drop-shadow(0 0 4px #3b82f6) drop-shadow(0 0 2px #3b82f6)" : "none",
                         }}
                     />
                 ) : (
