@@ -76,10 +76,7 @@ export const useMiniroom = () => {
             ...prev,
             items: prev.items.filter((item) => item.instanceId !== instanceId),
         }));
-        if (selectedItemId === instanceId) {
-            setSelectedItemId(null);
-        }
-    }, [selectedItemId]);
+    }, []);
 
     const rotateItem = useCallback((instanceId: string) => {
         setRoom((prev) => ({

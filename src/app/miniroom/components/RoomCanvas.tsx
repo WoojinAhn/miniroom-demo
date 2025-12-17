@@ -12,6 +12,7 @@ interface RoomCanvasProps {
     onSelectItem: (id: string) => void;
     onRotateItem: (id: string) => void;
     onFlipItem: (id: string) => void;
+    onBackgroundClick: () => void;
 }
 
 export const ROOM_WIDTH = 800;
@@ -26,9 +27,16 @@ export const RoomCanvas = ({
     onSelectItem,
     onRotateItem,
     onFlipItem,
+    onBackgroundClick,
 }: RoomCanvasProps) => {
     return (
         <div
+            onPointerDown={(e) => {
+                // Only trigger if clicking the background itself, not a child
+                if (e.target === e.currentTarget) {
+                    onBackgroundClick();
+                }
+            }}
             style={{
                 width: ROOM_WIDTH,
                 height: ROOM_HEIGHT,
