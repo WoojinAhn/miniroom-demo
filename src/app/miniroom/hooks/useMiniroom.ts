@@ -53,6 +53,7 @@ export const useMiniroom = () => {
             posY: 300 - itemDef.height / 2, // Center Y (assuming 600 height)
             rotation: 0,
             isFlipped: false,
+            scale: 1,
         };
 
         setRoom((prev) => ({
@@ -100,6 +101,20 @@ export const useMiniroom = () => {
         }));
     }, []);
 
+    const scaleItem = useCallback((instanceId: string, delta: number) => {
+        setRoom((prev) => ({
+            ...prev,
+            items: prev.items.map((item) =>
+                item.instanceId === instanceId
+                    ? {
+                        ...item,
+                        scale: Math.max(0.5, Math.min(2.0, item.scale + delta)), // Limit 0.5x to 2.0x
+                    }
+                    : item
+            ),
+        }));
+    }, []);
+
     return {
         room,
         addItem,
@@ -111,5 +126,6 @@ export const useMiniroom = () => {
         setSelectedItemId,
         rotateItem,
         flipItem,
+        scaleItem,
     };
 };

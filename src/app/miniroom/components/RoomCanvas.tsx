@@ -12,6 +12,7 @@ interface RoomCanvasProps {
     onSelectItem: (id: string) => void;
     onRotateItem: (id: string) => void;
     onFlipItem: (id: string) => void;
+    onScaleItem: (id: string, delta: number) => void;
     onBackgroundClick: () => void;
 }
 
@@ -27,6 +28,7 @@ export const RoomCanvas = ({
     onSelectItem,
     onRotateItem,
     onFlipItem,
+    onScaleItem,
     onBackgroundClick,
 }: RoomCanvasProps) => {
     return (
@@ -61,6 +63,7 @@ export const RoomCanvas = ({
                         onSelect={() => onSelectItem(item.instanceId)}
                         onRotate={() => onRotateItem(item.instanceId)}
                         onFlip={() => onFlipItem(item.instanceId)}
+                        onScale={(delta) => onScaleItem(item.instanceId, delta)}
                     />
                 );
             })}

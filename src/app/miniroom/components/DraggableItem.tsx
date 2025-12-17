@@ -14,6 +14,7 @@ interface DraggableItemProps {
     onSelect: () => void;
     onRotate: () => void;
     onFlip: () => void;
+    onScale: (delta: number) => void;
 }
 
 export const DraggableItem = ({
@@ -26,6 +27,7 @@ export const DraggableItem = ({
     onSelect,
     onRotate,
     onFlip,
+    onScale,
 }: DraggableItemProps) => {
     const handleDrag = (dx: number, dy: number) => {
         let newX = item.posX + dx;
@@ -56,7 +58,7 @@ export const DraggableItem = ({
                 backgroundColor: itemDef.imageUrl ? "transparent" : itemDef.color,
                 // Apply transforms
                 transform: `rotate(${item.rotation}deg) scaleX(${item.isFlipped ? -1 : 1
-                    })`,
+                    }) scale(${item.scale || 1})`,
                 cursor: "move",
                 userSelect: "none",
                 touchAction: "none", // Critical for pointer events
@@ -110,6 +112,20 @@ export const DraggableItem = ({
                         title="Flip"
                     >
                         ⇄
+                    </button>
+                    <button
+                        onClick={() => onScale(0.1)}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-700 font-bold"
+                        title="Zoom In"
+                    >
+                        +
+                    </button>
+                    <button
+                        onClick={() => onScale(-0.1)}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-700 font-bold"
+                        title="Zoom Out"
+                    >
+                        -
                     </button>
                     <button
                         onClick={() => onDelete(item.instanceId)}

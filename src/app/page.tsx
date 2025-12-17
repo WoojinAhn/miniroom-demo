@@ -16,6 +16,7 @@ export default function MiniroomPage() {
     setSelectedItemId,
     rotateItem,
     flipItem,
+    scaleItem,
   } = useMiniroom();
 
   return (
@@ -50,6 +51,7 @@ export default function MiniroomPage() {
           onSelectItem={setSelectedItemId}
           onRotateItem={rotateItem}
           onFlipItem={flipItem}
+          onScaleItem={scaleItem}
           onBackgroundClick={() => setSelectedItemId(null)}
         />
         <Inventory items={AVAILABLE_ITEMS} onAddItem={addItem} />

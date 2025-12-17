@@ -59,6 +59,7 @@ export const INITIAL_ROOM: Room = {
             posY: 400,
             rotation: 0,
             isFlipped: false,
+            scale: 1,
         },
         {
             instanceId: "inst_2",
@@ -67,6 +68,7 @@ export const INITIAL_ROOM: Room = {
             posY: 100,
             rotation: 0,
             isFlipped: false,
+            scale: 1,
         },
     ],
 };

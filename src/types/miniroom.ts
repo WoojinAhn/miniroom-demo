@@ -15,6 +15,7 @@ export interface PlacedItem {
     posY: number;
     rotation: number; // 0, 90, 180, 270
     isFlipped: boolean;
+    scale: number; // 1.0 = 100%
 }
 
 export interface Room {
