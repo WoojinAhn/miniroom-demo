@@ -3,26 +3,30 @@
 Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로젝트입니다.
 추억의 싸이월드 감성을 살려 나만의 미니룸을 꾸며보세요!
 
-🔗 **데모 사이트**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
+🔗 **데모 사이트 (Live Demo)**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
+
+> **(2025.12.17 업데이트)**: 픽셀 아트 그래픽 적용, 회전/반전 기능 추가!
 
 ![Miniroom Demo](public/miniroom-preview.png)
 
 ## ✨ 주요 기능
 
 *   **🖱️ 드래그 앤 드롭 (Drag & Drop)**: 인벤토리에서 아이템을 꺼내 원하는 위치에 자유롭게 배치할 수 있습니다.
-*   **🛠️ 아이템 관리**:
-    *   **생성**: 인벤토리 클릭 시 아이템이 생성됩니다.
-    *   **이동**: 마우스로 드래그하여 위치를 조정합니다 (방 밖으로 나가지 않도록 자동 보정).
-    *   **삭제**: 아이템을 더블 클릭하면 삭제됩니다.
-*   **💾 자동 저장 (Auto-Save)**: 별도의 저장 버튼 없이, 변경 사항이 생기면 자동으로 상태가 저장됩니다 (Simulation).
-*   **🎨 레이어 시스템**: 나중에 놓은 아이템이 위에 쌓이는 자연스러운 레이어 순서를 지원합니다.
+*   **🎨 픽셀 아트 스타일 (Pixel Art)**: 고품질 픽셀 아트로 제작된 가구(의자, 테이블 등)를 제공합니다.
+*   **🛠️ 아이템 변형 (Transformation)**:
+    *   **회전 (Rotate)**: 선택된 아이템을 시계 방향으로 90도씩 회전시킵니다.
+    *   **반전 (Flip)**: 좌우 대칭으로 반전시킬 수 있습니다.
+*   **💾 아이템 관리 & 자동 저장**:
+    *   **선택 시스템**: 클릭하여 아이템을 선택하고, 배경을 클릭하여 해제합니다.
+    *   **삭제**: 선택 후 삭제 버튼을 누르거나 더블 클릭하여 삭제합니다.
+    *   **자동 저장**: 변경 사항은 실시간으로 자동 저장됩니다 (Simulation).
 
 ## 🛠️ 기술 스택 (Tech Stack)
 
 *   **Framework**: Next.js 16 (App Router)
 *   **Language**: TypeScript
 *   **Styling**: Tailwind CSS
-*   **Deploy**: Vercel
+*   **Deploy**: Vercel (CI/CD Automated)
 
 ## 🚀 실행 방법 (Getting Started)
 
@@ -54,9 +58,13 @@ src/
 ├── app/
 │   ├── page.tsx               # 메인 페이지 (미니룸)
 │   └── miniroom/
-│       ├── components/        # UI 컴포넌트 (캔버스, 인벤토리, 아이템)
-│       └── hooks/             # 로직 훅 (드래그, 상태 관리)
-├── types/                     # 타입 정의 (Room, Item)
+│       ├── components/        # UI 컴포넌트
+│       │   ├── RoomCanvas.tsx     # 메인 캔버스
+│       │   ├── DraggableItem.tsx  # 개별 아이템 (드래그/회전 로직)
+│       │   └── Inventory.tsx      # 아이템 목록
+│       └── hooks/
+│           └── useMiniroom.ts     # 핵심 로직 (상태 관리, 이동, 삭제)
+├── types/                     # 타입 정의 (Room, Item, Transformation)
 └── data/                      # 목업 데이터 (초기 아이템 등)
 ```
 
