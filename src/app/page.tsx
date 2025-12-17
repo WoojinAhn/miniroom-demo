@@ -70,13 +70,7 @@ export default function MiniroomPage() {
           </div>
           <RoomCanvas
             room={room}
-            availableItems={currentBackground ? [] : []} // availableItems is handled inside Inventory now, wait DraggableItem needs itemDef...
-            // Wait, RoomCanvas needs availableItems to lookup item definitions.
-            // In the new hook, INITIAL_ITEMS/AVAILABLE_ITEMS are imported inside hook but we need them here?
-            // Actually, INITIAL_ITEMS should be exported from hook or imported here.
-            // The original hook exported AVAILABLE_ITEMS. I removed it.
-            // I should re-export it from useMiniroom or import it directly.
-            // Let's import it directly from mockMiniroom since I removed it from hook return.
+            availableItems={AVAILABLE_ITEMS}
             onUpdateItem={moveItem}
             onDeleteItem={deleteItem}
             selectedItemId={selectedItemId}
