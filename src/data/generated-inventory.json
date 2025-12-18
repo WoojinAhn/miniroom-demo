@@ -9,6 +9,15 @@
         "generated": true
     },
     {
+        "id": "item_buldak_ramen",
+        "name": "Buldak Ramen",
+        "type": "furniture",
+        "width": 256,
+        "height": 256,
+        "imageUrl": "/items/buldak_ramen.png",
+        "generated": true
+    },
+    {
         "id": "item_camping_chair",
         "name": "Camping Chair",
         "type": "furniture",
