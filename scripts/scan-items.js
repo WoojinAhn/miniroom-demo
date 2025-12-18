@@ -60,6 +60,35 @@ function scanItems() {
         }
     });
 
+    // Scan Special Items
+    const SPECIAL_DIR = path.join(__dirname, '../public/special');
+    if (fs.existsSync(SPECIAL_DIR)) {
+        const specialFiles = fs.readdirSync(SPECIAL_DIR);
+        specialFiles.forEach(file => {
+            if (!file.match(/\.(png|jpg|jpeg|gif)$/i)) return;
+
+            const filePath = path.join(SPECIAL_DIR, file);
+            try {
+                const buffer = fs.readFileSync(filePath);
+                const dimensions = imageSize(buffer);
+                const id = `special_${path.parse(file).name}`;
+                const name = toTitleCase(path.parse(file).name);
+
+                items.push({
+                    id: id,
+                    name: name,
+                    type: 'special',
+                    width: dimensions.width,
+                    height: dimensions.height,
+                    imageUrl: `/special/${file}`,
+                    generated: true
+                });
+            } catch (err) {
+                console.error(`[Scan] Error processing special item ${file}:`, err.message);
+            }
+        });
+    }
+
     // Write to file
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(items, null, 4));
     console.log(`[Scan] Successfully registered ${items.length} items to ${OUTPUT_FILE}`);

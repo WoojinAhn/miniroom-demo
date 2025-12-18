@@ -5,9 +5,15 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.6.1";
+export const APP_VERSION = "v1.6.2";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.6.2",
+        date: "2025-12-18",
+        features: ["Added 'Special Items' category above Inventory", "Implemented 'Rocket' special item functionality"],
+        fixes: [],
+    },
     {
         version: "v1.6.1",
         date: "2025-12-18",
