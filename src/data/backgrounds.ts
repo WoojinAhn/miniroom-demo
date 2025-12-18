@@ -21,6 +21,13 @@ export const BACKGROUNDS: Background[] = [
         width: 750,
         height: 606,
     },
+    {
+        id: "bg_universe",
+        name: "Universe",
+        url: "/backgrounds/bg_universe.png",
+        width: 750,
+        height: 606,
+    },
 ];
 
 export const DEFAULT_BACKGROUND_ID = "bg_room";
