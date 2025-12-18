@@ -42,7 +42,7 @@ function scanItems() {
             let type = 'furniture';
             if (file.includes('rug') || file.includes('plant') || file.includes('frame') || file.includes('clock') || file.includes('mirror') || file.includes('light') || file.includes('lamp') || file.includes('cup')) {
                 type = 'decoration';
-            } else if (file.includes('tv') || file.includes('fridge') || file.includes('induction') || file.includes('monitor')) {
+            } else if (file.includes('tv') || file.includes('fridge') || file.includes('induction') || file.includes('monitor') || file.includes('cooker')) {
                 type = 'electronics';
             }
 
