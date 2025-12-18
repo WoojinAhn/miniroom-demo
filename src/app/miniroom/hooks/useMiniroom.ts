@@ -205,6 +205,28 @@ export const useMiniroom = () => {
         setSelectedItemId(instanceId);
     }, []);
 
+    const bringForward = useCallback((instanceId: string) => {
+        setRoom((prev) => {
+            const items = [...prev.items];
+            const index = items.findIndex((i) => i.instanceId === instanceId);
+            if (index === -1 || index === items.length - 1) return prev; // Already at top
+            // Swap with next item
+            [items[index], items[index + 1]] = [items[index + 1], items[index]];
+            return { ...prev, items };
+        });
+    }, []);
+
+    const sendBackward = useCallback((instanceId: string) => {
+        setRoom((prev) => {
+            const items = [...prev.items];
+            const index = items.findIndex((i) => i.instanceId === instanceId);
+            if (index <= 0) return prev; // Already at bottom
+            // Swap with previous item
+            [items[index - 1], items[index]] = [items[index], items[index - 1]];
+            return { ...prev, items };
+        });
+    }, []);
+
     return {
         room,
         selectedItemId,
@@ -215,6 +237,8 @@ export const useMiniroom = () => {
         flipItem,
         scaleItem,
         deleteItem,
+        bringForward,
+        sendBackward,
         setBackground,
         currentBackground,
     };

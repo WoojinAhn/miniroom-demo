@@ -5,9 +5,15 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.4.6";
+export const APP_VERSION = "v1.5.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.5.0",
+        date: "2025-12-18",
+        features: ["Added layer order controls: Bring Forward (⬆) / Send Backward (⬇) buttons in toolbar"],
+        fixes: [],
+    },
     {
         version: "v1.4.9",
         date: "2025-12-18",

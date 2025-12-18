@@ -20,6 +20,8 @@ interface DraggableItemProps {
     onRotate: () => void;
     onFlip: () => void;
     onScale: (delta: number) => void;
+    onBringForward: () => void;
+    onSendBackward: () => void;
     zIndex?: number;
 }
 
@@ -34,6 +36,8 @@ export const DraggableItem = ({
     onRotate,
     onFlip,
     onScale,
+    onBringForward,
+    onSendBackward,
     zIndex,
 }: DraggableItemProps) => {
     const handleDrag = (dx: number, dy: number) => {
@@ -175,6 +179,22 @@ export const DraggableItem = ({
                     >
                         -
                     </button>
+                    <div className="w-px h-4 bg-gray-300 mx-1" /> {/* Divider */}
+                    <button
+                        onClick={onBringForward}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-700 font-bold"
+                        title="Bring Forward"
+                    >
+                        ⬆
+                    </button>
+                    <button
+                        onClick={onSendBackward}
+                        className="p-1 hover:bg-gray-100 rounded text-gray-700 font-bold"
+                        title="Send Backward"
+                    >
+                        ⬇
+                    </button>
+                    <div className="w-px h-4 bg-gray-300 mx-1" /> {/* Divider */}
                     <button
                         onClick={() => onDelete(item.instanceId)}
                         className="p-1 hover:bg-red-100 rounded text-red-600 font-bold"

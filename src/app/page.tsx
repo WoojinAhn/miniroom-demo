@@ -21,6 +21,8 @@ export default function MiniroomPage() {
     rotateItem,
     flipItem,
     scaleItem,
+    bringForward,
+    sendBackward,
     setBackground,
     currentBackground,
   } = useMiniroom();
@@ -78,6 +80,8 @@ export default function MiniroomPage() {
             onRotateItem={rotateItem}
             onFlipItem={flipItem}
             onScaleItem={scaleItem}
+            onBringForward={bringForward}
+            onSendBackward={sendBackward}
             onBackgroundClick={() => selectItem(null)}
             width={currentBackground.width}
             height={currentBackground.height}

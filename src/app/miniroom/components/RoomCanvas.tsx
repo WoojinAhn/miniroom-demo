@@ -13,6 +13,8 @@ interface RoomCanvasProps {
     onRotateItem: (id: string) => void;
     onFlipItem: (id: string) => void;
     onScaleItem: (id: string, delta: number) => void;
+    onBringForward: (id: string) => void;
+    onSendBackward: (id: string) => void;
     onBackgroundClick: () => void;
     width: number;
     height: number;
@@ -28,6 +30,8 @@ export const RoomCanvas = ({
     onRotateItem,
     onFlipItem,
     onScaleItem,
+    onBringForward,
+    onSendBackward,
     onBackgroundClick,
     width,
     height,
@@ -69,6 +73,8 @@ export const RoomCanvas = ({
                         onRotate={() => onRotateItem(item.instanceId)}
                         onFlip={() => onFlipItem(item.instanceId)}
                         onScale={(delta) => onScaleItem(item.instanceId, delta)}
+                        onBringForward={() => onBringForward(item.instanceId)}
+                        onSendBackward={() => onSendBackward(item.instanceId)}
                         // Depth Sorting: Lower Y (higher up) = Background. Higher Y (lower down) = Foreground.
                         // We use (posY + height) to align by the "feet" of the item.
                         zIndex={Math.floor(item.posY + (itemDef.height * (item.scale || 1)))}
