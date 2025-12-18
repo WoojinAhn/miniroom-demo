@@ -75,9 +75,7 @@ export const RoomCanvas = ({
                         onScale={(delta) => onScaleItem(item.instanceId, delta)}
                         onBringForward={() => onBringForward(item.instanceId)}
                         onSendBackward={() => onSendBackward(item.instanceId)}
-                        // Depth Sorting: Lower Y (higher up) = Background. Higher Y (lower down) = Foreground.
-                        // We use (posY + height) to align by the "feet" of the item.
-                        zIndex={Math.floor(item.posY + (itemDef.height * (item.scale || 1)))}
+                    // zIndex={Math.floor(item.posY + (itemDef.height * (item.scale || 1)))}
                     />
                 );
             })}
