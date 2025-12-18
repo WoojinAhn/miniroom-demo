@@ -4,7 +4,7 @@ export interface Item {
     type: 'furniture' | 'decoration' | 'electronics' | 'character';
     width: number; // in pixels
     height: number; // in pixels
-    color: string; // CSS color for placeholder
+    color?: string; // CSS color for placeholder
     imageUrl?: string; // Path to pixel art asset
 }
 
