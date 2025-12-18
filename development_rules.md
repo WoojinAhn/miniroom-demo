@@ -63,3 +63,15 @@ This document outlines the critical rules and conventions established for the Mi
   4. Open a Pull Request and request review.
   5. Merge only after approval.
 - **Rationale**: Prevents conflicts with Antigravity working on the same codebase.
+
+## 7. Antigravity Workflow (Review & Merge)
+- **Role**: Code Reviewer & Merger
+- **Protocol**:
+  1. Receive branch/PR for review.
+  2. Verify requirements and run checks.
+  3. **Reporting**:
+     - If critical issues found: **Report to User** (to instruct Cursor to fix). Do **NOT** fix locally unless trivial.
+     - If approved: Proceed to Merge.
+  4. **Merge**:
+     - Antigravity is the designated Merger for `master` branch.
+     - Ensure all checks pass before merging.
