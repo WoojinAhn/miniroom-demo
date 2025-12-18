@@ -43,3 +43,9 @@ This document outlines the critical rules and conventions established for the Mi
   - `[Cursor] feat: add new inventory item`
   - `[Antigravity] fix: resolve drag issue`
 - **Note**: For manual (human) commits, use standard commit messages without prefix.
+
+## 6. Shared Workspace Context
+- **Environment**: User (Cursor) and Agent (Antigravity) share the **same local file system**.
+- **Syncing**:
+  - **Local Changes**: Are reflected immediately. No need to `git pull` to see changes made by the other IDE locally.
+  - **Remote Changes**: `git pull` is only required when changes are pushed from an *external* source (not the current local machine).
