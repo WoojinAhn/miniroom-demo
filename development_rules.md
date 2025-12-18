@@ -44,8 +44,13 @@ This document outlines the critical rules and conventions established for the Mi
   - `[Antigravity] fix: resolve drag issue`
 - **Note**: For manual (human) commits, use standard commit messages without prefix.
 
-## 6. Shared Workspace Context
-- **Environment**: User (Cursor) and Agent (Antigravity) share the **same local file system**.
-- **Syncing**:
-  - **Local Changes**: Are reflected immediately. No need to `git pull` to see changes made by the other IDE locally.
-  - **Remote Changes**: `git pull` is only required when changes are pushed from an *external* source (not the current local machine).
+## 6. Cursor Workflow (Conflict Prevention)
+- **Applies to**: Cursor IDE only.
+- **Pattern**: Issue → Branch → PR → Review → Merge
+- **Steps**:
+  1. Create or reference a GitHub Issue before starting work.
+  2. Create a feature branch: `cursor/issue-[number]-[short-description]`
+  3. Commit changes with `[Cursor]` prefix.
+  4. Open a Pull Request and request review.
+  5. Merge only after approval.
+- **Rationale**: Prevents conflicts with Antigravity working on the same codebase.
