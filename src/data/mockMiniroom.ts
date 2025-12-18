@@ -200,6 +200,18 @@ export const AVAILABLE_ITEMS: Item[] = [
     },
 ];
 
+// Import generated items
+import generatedItems from "./generated-inventory.json";
+
+// Merge generated items into AVAILABLE_ITEMS, avoiding duplicates
+// Hardcoded items take precedence
+generatedItems.forEach((genItem: any) => {
+    const exists = AVAILABLE_ITEMS.some((i) => i.id === genItem.id);
+    if (!exists) {
+        AVAILABLE_ITEMS.push(genItem as Item);
+    }
+});
+
 export const INITIAL_ROOM: Room = {
     id: "room_001",
     userId: "user_choco",

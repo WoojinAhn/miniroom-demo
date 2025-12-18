@@ -9,6 +9,12 @@ export const APP_VERSION = "v1.5.0";
 
 export const CHANGELOG: ReleaseNote[] = [
     {
+        version: "v1.6.0",
+        date: "2025-12-18",
+        features: ["Automated inventory registration: Assets in public/items are now auto-detected"],
+        fixes: [],
+    },
+    {
         version: "v1.5.1",
         date: "2025-12-18",
         features: ["Added 3 new inventory items: Blue Bed, Standing Mirror, Wall Clock"],

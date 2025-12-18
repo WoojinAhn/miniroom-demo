@@ -1,0 +1,68 @@
+const fs = require('fs');
+const path = require('path');
+const { imageSize } = require('image-size');
+
+const ITEMS_DIR = path.join(__dirname, '../public/items');
+const OUTPUT_FILE = path.join(__dirname, '../src/data/generated-inventory.json');
+
+// Ensure output directory exists (src/data should exist, but good to be safe)
+const outputDir = path.dirname(OUTPUT_FILE);
+if (!fs.existsSync(outputDir)) {
+    fs.mkdirSync(outputDir, { recursive: true });
+}
+
+function toTitleCase(str) {
+    return str
+        .replace(/_/g, ' ')
+        .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function scanItems() {
+    if (!fs.existsSync(ITEMS_DIR)) {
+        console.warn(`[Scan] Items directory not found: ${ITEMS_DIR}`);
+        return;
+    }
+
+    const files = fs.readdirSync(ITEMS_DIR);
+    const items = [];
+
+    files.forEach(file => {
+        if (!file.match(/\.(png|jpg|jpeg|gif)$/i)) return;
+
+        const filePath = path.join(ITEMS_DIR, file);
+        try {
+            const buffer = fs.readFileSync(filePath);
+            const dimensions = imageSize(buffer);
+            const id = `item_${path.parse(file).name}`;
+            const name = toTitleCase(path.parse(file).name);
+
+            // Heuristic: If filename contains specific keywords, verify type?
+            // For now, default everything to 'furniture' or 'decoration' based on simple rules or just default to furniture.
+            // Let's refine based on keywords if possible, else 'furniture'.
+            let type = 'furniture';
+            if (file.includes('rug') || file.includes('plant') || file.includes('frame') || file.includes('clock') || file.includes('mirror') || file.includes('light') || file.includes('lamp') || file.includes('cup')) {
+                type = 'decoration';
+            } else if (file.includes('tv') || file.includes('fridge') || file.includes('induction') || file.includes('monitor')) {
+                type = 'electronics';
+            }
+
+            items.push({
+                id: id,
+                name: name,
+                type: type, // Auto-detected type
+                width: dimensions.width,
+                height: dimensions.height,
+                imageUrl: `/items/${file}`,
+                generated: true // Flag to indicate auto-generated
+            });
+        } catch (err) {
+            console.error(`[Scan] Error processing ${file}:`, err.message);
+        }
+    });
+
+    // Write to file
+    fs.writeFileSync(OUTPUT_FILE, JSON.stringify(items, null, 4));
+    console.log(`[Scan] Successfully registered ${items.length} items to ${OUTPUT_FILE}`);
+}
+
+scanItems();
