@@ -35,3 +35,11 @@ This document outlines the critical rules and conventions established for the Mi
 - **Testing**:
   - Verify `npm run build` passes before committing.
   - Check browser console for unique key errors or hydration mismatches.
+
+## 5. Commit Convention (AI IDE Tracking)
+- Commits made by AI IDEs **MUST** include the IDE name as a prefix.
+- **Format**: `[IDE_NAME] type: description`
+- **Examples**:
+  - `[Cursor] feat: add new inventory item`
+  - `[Antigravity] fix: resolve drag issue`
+- **Note**: For manual (human) commits, use standard commit messages without prefix.
