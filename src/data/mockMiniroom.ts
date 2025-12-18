@@ -154,7 +154,7 @@ export const AVAILABLE_ITEMS: Item[] = [
         width: 60,
         height: 120,
         color: "#transparent",
-        imageUrl: "/items/cha01.png",
+        imageUrl: "/characters/cha01.png",
     },
     {
         id: "item_cha02",
@@ -163,7 +163,7 @@ export const AVAILABLE_ITEMS: Item[] = [
         width: 60,
         height: 120,
         color: "#transparent",
-        imageUrl: "/items/cha02.png",
+        imageUrl: "/characters/cha02.png",
     },
     {
         id: "item_cha03",
@@ -172,7 +172,7 @@ export const AVAILABLE_ITEMS: Item[] = [
         width: 60,
         height: 120,
         color: "#transparent",
-        imageUrl: "/items/cha03.png",
+        imageUrl: "/characters/cha03.png",
     },
 ];
 

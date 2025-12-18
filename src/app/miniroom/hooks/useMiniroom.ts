@@ -130,11 +130,26 @@ export const useMiniroom = () => {
     }, []);
 
     const deleteItem = useCallback((instanceId: string) => {
-        setRoom((prev) => ({
-            ...prev,
-            items: prev.items.filter((item) => item.instanceId !== instanceId),
-        }));
-    }, []);
+        setRoom((prev) => {
+            const itemToDelete = prev.items.find((i) => i.instanceId === instanceId);
+            if (!itemToDelete) return prev;
+
+            const itemDef = AVAILABLE_ITEMS.find((def) => def.id === itemToDelete.itemId);
+            if (itemDef?.type === "character") {
+                // Characters cannot be deleted
+                return prev;
+            }
+
+            return {
+                ...prev,
+                items: prev.items.filter((item) => item.instanceId !== instanceId),
+            };
+        });
+        // Clear selection if deleted
+        if (selectedItemId === instanceId) {
+            setSelectedItemId(null);
+        }
+    }, [selectedItemId]);
 
     const rotateItem = useCallback((instanceId: string) => {
         setRoom((prev) => ({

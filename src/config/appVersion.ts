@@ -9,6 +9,12 @@ export const APP_VERSION = "v1.4.6";
 
 export const CHANGELOG: ReleaseNote[] = [
     {
+        version: "v1.4.9",
+        date: "2025-12-18",
+        features: ["Moved character assets to dedicated folder", "Prevented deletion of character items"],
+        fixes: [],
+    },
+    {
         version: "v1.4.8",
         date: "2025-12-18",
         features: ["Registered 15+ new inventory items from public assets"],
