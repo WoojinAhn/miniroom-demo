@@ -27,17 +27,17 @@ This document outlines the critical rules and conventions established for the Mi
 - **Default Placement**: The main character (`cha01`) is placed in the room center by default in `INITIAL_ROOM`.
 
 ## 4. Development Workflow
-- **Port Management**: 각 IDE별로 포트를 분리하여 충돌을 방지합니다.
+- **Port Management**: Each IDE uses a dedicated port to prevent conflicts.
   | IDE | Port |
   |-----|------|
   | Antigravity | 3000 |
   | **Cursor** | **3001** |
   
-  - **Cursor 개발 서버 실행**:
+  - **Start dev server (Cursor)**:
     ```bash
     npm run dev -- -p 3001
     ```
-  - **기존 프로세스 종료 후 실행** (필요시):
+  - **Kill existing process before starting** (if needed):
     ```bash
     lsof -ti :3001 | xargs kill -9; npm run dev -- -p 3001
     ```
