@@ -5,9 +5,15 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.5.0";
+export const APP_VERSION = "v1.6.1";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.6.1",
+        date: "2025-12-18",
+        features: ["Added new item: Rice Cooker"],
+        fixes: [],
+    },
     {
         version: "v1.6.0",
         date: "2025-12-18",

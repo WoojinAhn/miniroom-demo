@@ -172,6 +172,14 @@ export const AVAILABLE_ITEMS: Item[] = [
         imageUrl: "/items/cup_black.png",
     },
     {
+        id: "item_rice_cooker",
+        name: "Rice Cooker",
+        type: "electronics",
+        width: 126,
+        height: 126,
+        imageUrl: "/items/rice_cooker.png",
+    },
+    {
         id: "item_cha01",
         name: "Character 01",
         type: "character",
