@@ -220,15 +220,7 @@ export const INITIAL_ROOM: Room = {
     background: "#ecf0f1", // Light gray background
     lastUpdated: new Date().toISOString(),
     items: [
-        {
-            instanceId: "inst_1",
-            itemId: "item_rug_blue",
-            posX: 100,
-            posY: 400,
-            rotation: 0,
-            isFlipped: false,
-            scale: 1,
-        },
+
         {
             instanceId: "inst_2",
             itemId: "item_plant_pot",
