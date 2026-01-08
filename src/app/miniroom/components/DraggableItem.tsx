@@ -53,9 +53,9 @@ export const DraggableItem = ({
         let newX = item.posX + dx;
         let newY = item.posY + dy;
 
-        // Clamping / Boundary Check
-        newX = Math.max(0, Math.min(newX, bounds.width - contentWidth - paddingLeft - paddingRight));
-        newY = Math.max(0, Math.min(newY, bounds.height - contentHeight - paddingTop - paddingBottom));
+        // Clamp using visual box (ignore transparent padding)
+        newX = Math.max(-paddingLeft, Math.min(newX, bounds.width - contentWidth - paddingLeft));
+        newY = Math.max(-paddingTop, Math.min(newY, bounds.height - contentHeight - paddingTop));
 
         onUpdate(item.instanceId, newX, newY);
     };
@@ -109,7 +109,7 @@ export const DraggableItem = ({
                     color: "white",
                     fontSize: "10px",
                     fontWeight: "bold",
-                    transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1}) translateY(${itemDef.paddingBottom || 0}px)`,
+                    transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
                     transformOrigin: "center bottom",
                     transition: "transform 0.2s ease-in-out",
                     // Outline only for non-image items (text placeholders)
