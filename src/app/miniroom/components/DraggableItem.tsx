@@ -59,10 +59,10 @@ export const DraggableItem = ({
         let newY = item.posY + dy;
 
         // Clamp using visual box (ignore transparent padding) with scale applied
-        const minX = bboxX;
-        const minY = bboxY;
-        const maxX = bounds.width - bboxWidth * scale + bboxX;
-        const maxY = bounds.height - bboxHeight * scale + bboxY;
+        const minX = bboxX * scale;
+        const minY = bboxY * scale;
+        const maxX = bounds.width - bboxWidth * scale + bboxX * scale;
+        const maxY = bounds.height - bboxHeight * scale + bboxY * scale;
 
         newX = Math.max(minX, Math.min(newX, maxX));
         newY = Math.max(minY, Math.min(newY, maxY));
