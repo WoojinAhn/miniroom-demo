@@ -54,14 +54,11 @@ export const DraggableItem = ({
         let newY = item.posY + dy;
 
         // Clamp using visual box (ignore transparent padding)
-        newX = Math.max(
-            -paddingLeft,
-            Math.min(newX, bounds.width - paddingLeft - paddingRight - contentWidth)
-        );
-        newY = Math.max(
-            -paddingTop,
-            Math.min(newY, bounds.height - paddingTop - paddingBottom - contentHeight)
-        );
+        const maxX = bounds.width - (itemDef.width - paddingRight);
+        const maxY = bounds.height - (itemDef.height - paddingBottom);
+
+        newX = Math.max(-paddingLeft, Math.min(newX, maxX));
+        newY = Math.max(-paddingTop, Math.min(newY, maxY));
 
         onUpdate(item.instanceId, newX, newY);
     };
