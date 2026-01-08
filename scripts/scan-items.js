@@ -101,13 +101,9 @@ function scanItems() {
                 }
             }
 
-            // Heuristic: If filename contains specific keywords, verify type?
-            let type = 'furniture';
-            if (file.includes('rug') || file.includes('plant') || file.includes('frame') || file.includes('clock') || file.includes('mirror') || file.includes('light') || file.includes('lamp') || file.includes('cup')) {
-                type = 'decoration';
-            } else if (file.includes('tv') || file.includes('fridge') || file.includes('induction') || file.includes('monitor') || file.includes('cooker') || file.includes('console') || file.includes('아이맥') || file.includes('monitor')) {
-                type = 'electronics';
-            }
+            // Default type is general for all standard items
+            let type = 'general';
+            // if (file.includes('rug') ... ) logic removed as per user request
 
             items.push({
                 id: id,
