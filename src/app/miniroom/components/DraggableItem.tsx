@@ -71,10 +71,10 @@ export const DraggableItem = ({
             onDoubleClick={() => onDelete(item.instanceId)}
             style={{
                 position: "absolute",
-                left: item.posX + paddingLeft,
-                top: item.posY + paddingTop,
-                width: contentWidth,
-                height: contentHeight,
+                left: item.posX,
+                top: item.posY,
+                width: itemDef.width,
+                height: itemDef.height,
                 // Outer container: Handles Position & Rotation ONLY
                 // This ensures the generic bounding box rotates, but we don't scale the toolbar here
                 transform: `rotate(${item.rotation}deg)`,
@@ -109,8 +109,8 @@ export const DraggableItem = ({
                     color: "white",
                     fontSize: "10px",
                     fontWeight: "bold",
-                    transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
-                    transformOrigin: "center bottom",
+                    transform: `translate(${-paddingLeft}px, ${-paddingTop}px) scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
+                    transformOrigin: `${paddingLeft + contentWidth / 2}px ${paddingTop + contentHeight}px`,
                     transition: "transform 0.2s ease-in-out",
                     // Outline only for non-image items (text placeholders)
                     outline: isSelected && !itemDef.imageUrl ? "2px solid #3b82f6" : "none",
