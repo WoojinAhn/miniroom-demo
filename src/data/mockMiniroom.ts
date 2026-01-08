@@ -4,7 +4,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_chair_red",
         name: "Red Chair",
-        type: "furniture",
+        type: "general",
         width: 60, // Adjusted width for pixel art
         height: 60,
         color: "#e74c3c",
@@ -13,7 +13,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_table_wood",
         name: "Wooden Table",
-        type: "furniture",
+        type: "general",
         width: 100,
         height: 60,
         color: "#d35400",
@@ -22,7 +22,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_rug_blue",
         name: "Blue Rug",
-        type: "decoration",
+        type: "general",
         width: 120,
         height: 80,
         color: "#3498db",
@@ -30,7 +30,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_rug_striped",
         name: "Striped Rug",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/rug_striped.png",
@@ -38,7 +38,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_plant",
         name: "Potted Plant",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/potted_plant.png",
@@ -46,7 +46,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_tv",
         name: "Retro TV",
-        type: "electronics",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/tv_monitor.png",
@@ -54,7 +54,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_sofa_blue",
         name: "Blue Sofa",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/sofa_blue.png",
@@ -62,7 +62,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_coffee_table",
         name: "Oval Coffee Table",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/coffee_table_oval.png",
@@ -70,7 +70,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_camping_table",
         name: "Camping Table",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/camping_table.png",
@@ -78,7 +78,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_camping_chair",
         name: "Camping Chair",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/camping_chair.png",
@@ -86,7 +86,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_shelf_wood",
         name: "Wooden Shelf",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/shelf_wood.png",
@@ -94,7 +94,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_drawer_chest",
         name: "Drawer Chest",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/drawer_chest.png",
@@ -102,7 +102,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_display_fridge",
         name: "Display Fridge",
-        type: "electronics",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/display_refrigerator.png",
@@ -110,7 +110,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_induction",
         name: "Induction Cooktop",
-        type: "electronics",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/induction_cooktop.png",
@@ -118,7 +118,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_pendant_light",
         name: "Pendant Light",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/pendant_light_round.png",
@@ -126,7 +126,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_floor_lamp",
         name: "Floor Lamp",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/floor_lamp_orange.png",
@@ -134,7 +134,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_wall_frame",
         name: "Wall Frame",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/wall_frame_leaf.png",
@@ -142,7 +142,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_bed_blue",
         name: "Blue Bed",
-        type: "furniture",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/bed_blue_dots.png",
@@ -150,7 +150,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_mirror_gold",
         name: "Standing Mirror",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/mirror_full_gold.png",
@@ -158,7 +158,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_clock_wall",
         name: "Wall Clock",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/clock_wall_simple.png",
@@ -166,7 +166,7 @@ export const AVAILABLE_ITEMS: Item[] = [
     {
         id: "item_cup_black",
         name: "Black Cup",
-        type: "decoration",
+        type: "general",
         width: 126,
         height: 126,
         imageUrl: "/items/cup_black.png",
