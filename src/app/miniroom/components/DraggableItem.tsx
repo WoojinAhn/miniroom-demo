@@ -101,7 +101,7 @@ export const DraggableItem = ({
                     color: "white",
                     fontSize: "10px",
                     fontWeight: "bold",
-                    transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
+                    transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1}) translateY(${itemDef.paddingBottom || 0}px)`,
                     transformOrigin: "center bottom",
                     transition: "transform 0.2s ease-in-out",
                     // Outline only for non-image items (text placeholders)

@@ -77,6 +77,7 @@ function scanItems() {
                 const name = toTitleCase(path.parse(file).name);
 
                 let paddingTop = 0;
+                let paddingBottom = 0;
                 // Only calculate padding for PNGs
                 if (file.toLowerCase().endsWith('.png')) {
                     try {
@@ -97,6 +98,23 @@ function scanItems() {
                                 break;
                             }
                         }
+
+                        // Scan rows from bottom for paddingBottom
+                        for (let y = png.height - 1; y >= 0; y--) {
+                            let rowHasPixels = false;
+                            for (let x = 0; x < png.width; x++) {
+                                const idx = (png.width * y + x) << 2;
+                                const alpha = png.data[idx + 3];
+                                if (alpha > 0) {
+                                    rowHasPixels = true;
+                                    break;
+                                }
+                            }
+                            if (rowHasPixels) {
+                                paddingBottom = png.height - 1 - y;
+                                break;
+                            }
+                        }
                     } catch (e) {
                         console.warn(`[Scan] Could not calculate padding for ${file}:`, e.message);
                     }
@@ -109,6 +127,7 @@ function scanItems() {
                     width: dimensions.width,
                     height: dimensions.height,
                     paddingTop: paddingTop,
+                    paddingBottom: paddingBottom,
                     imageUrl: `/special/${file}`,
                     generated: true
                 });
