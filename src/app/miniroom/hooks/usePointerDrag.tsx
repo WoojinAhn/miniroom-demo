@@ -33,7 +33,6 @@ export const usePointerDrag = (onDrag: (dx: number, dy: number) => void) => {
 
     const onPointerDown = useCallback(
         (e: React.PointerEvent) => {
-            e.preventDefault();
             e.stopPropagation();
             isDragging.current = true;
             lastPos.current = { x: e.clientX, y: e.clientY };
