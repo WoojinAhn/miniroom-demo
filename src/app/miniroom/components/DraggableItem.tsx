@@ -41,13 +41,21 @@ export const DraggableItem = ({
     onSendBackward,
     zIndex,
 }: DraggableItemProps) => {
+    // Visible content box after trimming transparent padding
+    const paddingLeft = itemDef.paddingLeft || 0;
+    const paddingRight = itemDef.paddingRight || 0;
+    const paddingTop = itemDef.paddingTop || 0;
+    const paddingBottom = itemDef.paddingBottom || 0;
+    const contentWidth = Math.max(1, itemDef.width - paddingLeft - paddingRight);
+    const contentHeight = Math.max(1, itemDef.height - paddingTop - paddingBottom);
+
     const handleDrag = (dx: number, dy: number) => {
         let newX = item.posX + dx;
         let newY = item.posY + dy;
 
         // Clamping / Boundary Check
-        newX = Math.max(0, Math.min(newX, bounds.width - itemDef.width));
-        newY = Math.max(0, Math.min(newY, bounds.height - itemDef.height));
+        newX = Math.max(0, Math.min(newX, bounds.width - contentWidth - paddingLeft - paddingRight));
+        newY = Math.max(0, Math.min(newY, bounds.height - contentHeight - paddingTop - paddingBottom));
 
         onUpdate(item.instanceId, newX, newY);
     };
@@ -63,10 +71,10 @@ export const DraggableItem = ({
             onDoubleClick={() => onDelete(item.instanceId)}
             style={{
                 position: "absolute",
-                left: item.posX,
-                top: item.posY,
-                width: itemDef.width,
-                height: itemDef.height,
+                left: item.posX + paddingLeft,
+                top: item.posY + paddingTop,
+                width: contentWidth,
+                height: contentHeight,
                 // Outer container: Handles Position & Rotation ONLY
                 // This ensures the generic bounding box rotates, but we don't scale the toolbar here
                 transform: `rotate(${item.rotation}deg)`,
@@ -137,7 +145,7 @@ export const DraggableItem = ({
                         left: "50%",
                         marginTop: "0",
                         transformOrigin: "0 0",
-                        transform: `rotate(${-item.rotation}deg) translate(-50%, ${itemDef.height / 2 + 10}px)`, // Cancel rotation and push down to screen bottom
+                        transform: `rotate(${-item.rotation}deg) translate(-50%, ${contentHeight / 2 + 10}px)`, // Cancel rotation and push down to screen bottom
                         display: "flex",
                         gap: "4px",
                         backgroundColor: "white",

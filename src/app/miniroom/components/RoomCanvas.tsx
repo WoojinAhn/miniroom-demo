@@ -75,7 +75,18 @@ export const RoomCanvas = ({
                         onScale={(delta) => onScaleItem(item.instanceId, delta)}
                         onBringForward={() => onBringForward(item.instanceId)}
                         onSendBackward={() => onSendBackward(item.instanceId)}
-                    // zIndex={Math.floor(item.posY + (itemDef.height * (item.scale || 1)))}
+                        // Depth Sorting: use visual bottom after trimming padding
+                        zIndex={Math.floor(
+                            item.posY +
+                                (itemDef.paddingTop || 0) +
+                                Math.max(
+                                    1,
+                                    (itemDef.height -
+                                        (itemDef.paddingTop || 0) -
+                                        (itemDef.paddingBottom || 0)) *
+                                        (item.scale || 1)
+                                )
+                        )}
                     />
                 );
             })}
