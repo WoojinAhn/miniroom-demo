@@ -133,11 +133,11 @@ export const DraggableItem = ({
                 <div
                     style={{
                         position: "absolute",
-                        top: "100%", // Position at the bottom of the container
+                        top: "50%", // Anchor to the center of the item (rotation pivot)
                         left: "50%",
-                        marginTop: "10px", // Spacing from the bottom of the item
+                        marginTop: "0",
                         transformOrigin: "0 0",
-                        transform: `rotate(${-item.rotation}deg) translate(-50%, 0)`, // Counter-rotate and center horizontally
+                        transform: `rotate(${-item.rotation}deg) translate(-50%, ${itemDef.height / 2 + 10}px)`, // Cancel rotation and push down to screen bottom
                         display: "flex",
                         gap: "4px",
                         backgroundColor: "white",
