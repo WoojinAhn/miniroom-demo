@@ -212,6 +212,7 @@ AVAILABLE_ITEMS.forEach((item, idx) => {
         bboxY: item.bboxY ?? gen.bboxY,
         bboxWidth: item.bboxWidth ?? gen.bboxWidth,
         bboxHeight: item.bboxHeight ?? gen.bboxHeight,
+        imageUrl: gen.imageUrl ?? item.imageUrl, // prefer trimmed asset
     };
 });
 

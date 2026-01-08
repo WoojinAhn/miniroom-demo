@@ -121,7 +121,8 @@ export const DraggableItem = ({
                     fontSize: "10px",
                     fontWeight: "bold",
                     transform: `translate(${-bboxX}px, ${-bboxY}px) scale(${scale}) scaleX(${item.isFlipped ? -1 : 1})`,
-                    transformOrigin: `${bboxX + bboxWidth / 2}px ${bboxY + bboxHeight}px`,
+                    // Use top-left of bbox as origin to keep scaling aligned to visible box
+                    transformOrigin: `${bboxX}px ${bboxY}px`,
                     transition: "transform 0.2s ease-in-out",
                     // Outline only for non-image items (text placeholders)
                     outline: isSelected && !itemDef.imageUrl ? "2px solid #3b82f6" : "none",
