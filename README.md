@@ -1,9 +1,9 @@
-# 🏠 Miniroom Maker (Cyworld Style)
+# 🏠 🌰 Miniroom Maker (Dotori World Style)
 
 [![Korean](https://img.shields.io/badge/Language-Korean-red?style=flat-square)](README.ko.md)
 
 A **Drag & Drop Room Decorator** project built with Next.js and TypeScript.
-Create your own retro Cyworld-style miniroom!
+Create your own retro **Dotori World** style miniroom!
 
 🔗 **Live Demo**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
 

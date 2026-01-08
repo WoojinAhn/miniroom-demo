@@ -1,9 +1,9 @@
-# 🏠 싸이월드 감성 미니룸 꾸미기 (Miniroom Maker)
+# 🏠 🌰 도토리월드 감성 미니룸 꾸미기 (Miniroom Maker)
 
 [![English](https://img.shields.io/badge/Language-English-blue?style=flat-square)](README.md)
 
 Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로젝트입니다.
-추억의 싸이월드 감성을 살려 나만의 미니룸을 꾸며보세요!
+추억의 **도토리월드(Dotori World)** 감성을 살려 나만의 미니룸을 꾸며보세요!
 
 🔗 **데모 사이트 (Live Demo)**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
 
