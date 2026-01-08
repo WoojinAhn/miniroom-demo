@@ -26,6 +26,8 @@ function scanItems() {
     const files = fs.readdirSync(ITEMS_DIR);
     const items = [];
 
+    const { PNG } = require('pngjs');
+
     files.forEach(file => {
         if (!file.match(/\.(png|jpg|jpeg|gif)$/i)) return;
 
@@ -36,13 +38,74 @@ function scanItems() {
             const id = `item_${path.parse(file).name}`;
             const name = toTitleCase(path.parse(file).name);
 
+            // Calculate Padding for PNGs
+            let paddingTop = 0;
+            let paddingBottom = 0;
+            let paddingLeft = 0;
+            let paddingRight = 0;
+
+            if (file.toLowerCase().endsWith('.png')) {
+                try {
+                    const png = PNG.sync.read(buffer);
+
+                    // Top
+                    for (let y = 0; y < png.height; y++) {
+                        let rowHasPixels = false;
+                        for (let x = 0; x < png.width; x++) {
+                            if (png.data[(png.width * y + x) << 2 | 3] > 0) {
+                                rowHasPixels = true;
+                                break;
+                            }
+                        }
+                        if (rowHasPixels) { paddingTop = y; break; }
+                    }
+
+                    // Bottom
+                    for (let y = png.height - 1; y >= 0; y--) {
+                        let rowHasPixels = false;
+                        for (let x = 0; x < png.width; x++) {
+                            if (png.data[(png.width * y + x) << 2 | 3] > 0) {
+                                rowHasPixels = true;
+                                break;
+                            }
+                        }
+                        if (rowHasPixels) { paddingBottom = png.height - 1 - y; break; }
+                    }
+
+                    // Left
+                    for (let x = 0; x < png.width; x++) {
+                        let colHasPixels = false;
+                        for (let y = 0; y < png.height; y++) {
+                            if (png.data[(png.width * y + x) << 2 | 3] > 0) {
+                                colHasPixels = true;
+                                break;
+                            }
+                        }
+                        if (colHasPixels) { paddingLeft = x; break; }
+                    }
+
+                    // Right
+                    for (let x = png.width - 1; x >= 0; x--) {
+                        let colHasPixels = false;
+                        for (let y = 0; y < png.height; y++) {
+                            if (png.data[(png.width * y + x) << 2 | 3] > 0) {
+                                colHasPixels = true;
+                                break;
+                            }
+                        }
+                        if (colHasPixels) { paddingRight = png.width - 1 - x; break; }
+                    }
+
+                } catch (e) {
+                    console.warn(`[Scan] Could not calculate padding for ${file}:`, e.message);
+                }
+            }
+
             // Heuristic: If filename contains specific keywords, verify type?
-            // For now, default everything to 'furniture' or 'decoration' based on simple rules or just default to furniture.
-            // Let's refine based on keywords if possible, else 'furniture'.
             let type = 'furniture';
             if (file.includes('rug') || file.includes('plant') || file.includes('frame') || file.includes('clock') || file.includes('mirror') || file.includes('light') || file.includes('lamp') || file.includes('cup')) {
                 type = 'decoration';
-            } else if (file.includes('tv') || file.includes('fridge') || file.includes('induction') || file.includes('monitor') || file.includes('cooker')) {
+            } else if (file.includes('tv') || file.includes('fridge') || file.includes('induction') || file.includes('monitor') || file.includes('cooker') || file.includes('console') || file.includes('아이맥') || file.includes('monitor')) {
                 type = 'electronics';
             }
 
@@ -52,6 +115,10 @@ function scanItems() {
                 type: type, // Auto-detected type
                 width: dimensions.width,
                 height: dimensions.height,
+                paddingTop,
+                paddingBottom,
+                paddingLeft,
+                paddingRight,
                 imageUrl: `/items/${file}`,
                 generated: true // Flag to indicate auto-generated
             });
