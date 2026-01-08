@@ -24,6 +24,7 @@ interface DraggableItemProps {
     onBringForward: () => void;
     onSendBackward: () => void;
     zIndex?: number;
+    globalScale?: number;
 }
 
 export const DraggableItem = ({
@@ -40,6 +41,7 @@ export const DraggableItem = ({
     onBringForward,
     onSendBackward,
     zIndex,
+    globalScale = 1,
 }: DraggableItemProps) => {
     // Calculate visual dimensions (Tight Bounding Box)
     const paddingTop = itemDef.paddingTop || 0;
@@ -54,8 +56,12 @@ export const DraggableItem = ({
     const scaleVal = Math.max(0.1, item.scale || 1);
 
     const handleDrag = (dx: number, dy: number) => {
-        let newX = item.posX + dx;
-        let newY = item.posY + dy;
+        // Adjust delta by globalScale to ensure 1:1 mouse movement
+        const adjustedDx = dx / globalScale;
+        const adjustedDy = dy / globalScale;
+
+        let newX = item.posX + adjustedDx;
+        let newY = item.posY + adjustedDy;
 
         // Clamping / Boundary Check
         // We must account for the transformOrigin: "center bottom"

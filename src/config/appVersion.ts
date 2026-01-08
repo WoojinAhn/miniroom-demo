@@ -5,9 +5,19 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.7.0";
+export const APP_VERSION = "v1.8.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.8.0",
+        date: "2026-01-09",
+        features: [
+            "Mobile Responsive Design: Vertical layout for mobile screens",
+            "Responsive Canvas: Room canvas now scales to fit the screen width",
+            "Inventory Optimization: Inventory stacks below the canvas on mobile for better usability",
+        ],
+        fixes: ["Internal: Improved type safety for 'Character' items"],
+    },
     {
         version: "v1.7.0",
         date: "2026-01-09",

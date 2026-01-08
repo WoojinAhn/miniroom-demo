@@ -51,8 +51,8 @@ export default function MiniroomPage() {
         </div>
       </header>
 
-      <main className="max-w-5xl mx-auto flex shadow-xl rounded-xl overflow-hidden bg-white">
-        <div className="flex flex-col gap-4">
+      <main className="max-w-5xl mx-auto flex flex-col md:flex-row shadow-xl rounded-xl overflow-hidden bg-white">
+        <div className="flex flex-col gap-4 w-full">
           <div className="flex gap-2 p-2 bg-gray-50 border-b">
             <span className="text-sm font-bold text-gray-700 flex items-center pr-2">
               Background:
