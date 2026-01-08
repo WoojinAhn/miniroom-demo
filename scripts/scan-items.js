@@ -18,9 +18,19 @@ function toTitleCase(str) {
         .replace(/\b\w/g, char => char.toUpperCase());
 }
 
-function computePadding(buffer, width, height) {
+function sanitizePngBuffer(buffer) {
+    const marker = Buffer.from('IEND');
+    const idx = buffer.lastIndexOf(marker);
+    if (idx === -1 || idx < 4) return buffer;
+    const endPos = idx + 8; // 4 bytes for "IEND" + 4 bytes CRC
+    if (endPos >= buffer.length) return buffer;
+    return buffer.slice(0, endPos);
+}
+
+function computePadding(buffer, width, height, fileName) {
     try {
-        const png = PNG.sync.read(buffer);
+        const target = sanitizePngBuffer(buffer);
+        const png = PNG.sync.read(target, { checkCRC: false });
         // Early return if fully opaque (common for trimmed assets)
         let minX = width, minY = height, maxX = -1, maxY = -1;
         for (let y = 0; y < png.height; y++) {
@@ -46,7 +56,7 @@ function computePadding(buffer, width, height) {
             paddingRight: width - 1 - maxX,
         };
     } catch (e) {
-        console.warn(`[Scan] Could not calculate padding (using defaults): ${e.message}`);
+        console.warn(`[Scan] Could not calculate padding for ${fileName || 'unknown'} (using defaults): ${e.message}`);
         return { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
     }
 }
@@ -82,7 +92,7 @@ function scanItems() {
 
             const padding =
                 file.toLowerCase().endsWith('.png')
-                    ? computePadding(buffer, dimensions.width, dimensions.height)
+                    ? computePadding(buffer, dimensions.width, dimensions.height, file)
                     : { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
 
             items.push({
@@ -116,7 +126,7 @@ function scanItems() {
 
                 const padding =
                     file.toLowerCase().endsWith('.png')
-                        ? computePadding(buffer, dimensions.width, dimensions.height)
+                        ? computePadding(buffer, dimensions.width, dimensions.height, file)
                         : { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
 
                 items.push({

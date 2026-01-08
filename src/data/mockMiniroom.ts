@@ -203,8 +203,24 @@ export const AVAILABLE_ITEMS: Item[] = [
 // Import generated items
 import generatedItems from "./generated-inventory.json";
 
-// Merge generated items into AVAILABLE_ITEMS, avoiding duplicates
-// Hardcoded items take precedence
+// Build map for padding/metadata overrides
+const generatedMap = new Map<string, any>();
+generatedItems.forEach((gen) => generatedMap.set(gen.id, gen));
+
+// Merge padding metadata into existing hardcoded items (do not override ids or explicit values)
+AVAILABLE_ITEMS.forEach((item, idx) => {
+    const gen = generatedMap.get(item.id);
+    if (!gen) return;
+    AVAILABLE_ITEMS[idx] = {
+        ...item,
+        paddingTop: item.paddingTop ?? gen.paddingTop,
+        paddingBottom: item.paddingBottom ?? gen.paddingBottom,
+        paddingLeft: item.paddingLeft ?? gen.paddingLeft,
+        paddingRight: item.paddingRight ?? gen.paddingRight,
+    };
+});
+
+// Add generated items that don't exist yet
 generatedItems.forEach((genItem: any) => {
     const exists = AVAILABLE_ITEMS.some((i) => i.id === genItem.id);
     if (!exists) {
