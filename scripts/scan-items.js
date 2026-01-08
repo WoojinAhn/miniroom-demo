@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const { imageSize } = require('image-size');
+const { PNG } = require('pngjs');
 
 const ITEMS_DIR = path.join(__dirname, '../public/items');
 const OUTPUT_FILE = path.join(__dirname, '../src/data/generated-inventory.json');
@@ -15,6 +16,39 @@ function toTitleCase(str) {
     return str
         .replace(/_/g, ' ')
         .replace(/\b\w/g, char => char.toUpperCase());
+}
+
+function computePadding(buffer, width, height) {
+    try {
+        const png = PNG.sync.read(buffer);
+        // Early return if fully opaque (common for trimmed assets)
+        let minX = width, minY = height, maxX = -1, maxY = -1;
+        for (let y = 0; y < png.height; y++) {
+            for (let x = 0; x < png.width; x++) {
+                const idx = (png.width * y + x) << 2;
+                const alpha = png.data[idx + 3];
+                if (alpha > 0) {
+                    if (x < minX) minX = x;
+                    if (y < minY) minY = y;
+                    if (x > maxX) maxX = x;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+        if (maxX === -1) {
+            // fully transparent fallback
+            return { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+        }
+        return {
+            paddingTop: minY,
+            paddingBottom: height - 1 - maxY,
+            paddingLeft: minX,
+            paddingRight: width - 1 - maxX,
+        };
+    } catch (e) {
+        console.warn(`[Scan] Could not calculate padding (using defaults): ${e.message}`);
+        return { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+    }
 }
 
 function scanItems() {
@@ -46,12 +80,18 @@ function scanItems() {
                 type = 'electronics';
             }
 
+            const padding =
+                file.toLowerCase().endsWith('.png')
+                    ? computePadding(buffer, dimensions.width, dimensions.height)
+                    : { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+
             items.push({
                 id: id,
                 name: name,
                 type: type, // Auto-detected type
                 width: dimensions.width,
                 height: dimensions.height,
+                ...padding,
                 imageUrl: `/items/${file}`,
                 generated: true // Flag to indicate auto-generated
             });
@@ -64,61 +104,20 @@ function scanItems() {
     const SPECIAL_DIR = path.join(__dirname, '../public/special');
     if (fs.existsSync(SPECIAL_DIR)) {
         const specialFiles = fs.readdirSync(SPECIAL_DIR);
-        const { PNG } = require('pngjs');
-
         specialFiles.forEach(file => {
             if (!file.match(/\.(png|jpg|jpeg|gif)$/i)) return;
 
             const filePath = path.join(SPECIAL_DIR, file);
             try {
-                const buffer = fs.readFileSync(filePath);
-                const dimensions = imageSize(buffer);
+            const buffer = fs.readFileSync(filePath);
+            const dimensions = imageSize(buffer);
                 const id = `special_${path.parse(file).name}`;
                 const name = toTitleCase(path.parse(file).name);
 
-                let paddingTop = 0;
-                let paddingBottom = 0;
-                // Only calculate padding for PNGs
-                if (file.toLowerCase().endsWith('.png')) {
-                    try {
-                        const png = PNG.sync.read(buffer);
-                        // Scan rows from top
-                        for (let y = 0; y < png.height; y++) {
-                            let rowHasPixels = false;
-                            for (let x = 0; x < png.width; x++) {
-                                const idx = (png.width * y + x) << 2;
-                                const alpha = png.data[idx + 3];
-                                if (alpha > 0) {
-                                    rowHasPixels = true;
-                                    break;
-                                }
-                            }
-                            if (rowHasPixels) {
-                                paddingTop = y;
-                                break;
-                            }
-                        }
-
-                        // Scan rows from bottom for paddingBottom
-                        for (let y = png.height - 1; y >= 0; y--) {
-                            let rowHasPixels = false;
-                            for (let x = 0; x < png.width; x++) {
-                                const idx = (png.width * y + x) << 2;
-                                const alpha = png.data[idx + 3];
-                                if (alpha > 0) {
-                                    rowHasPixels = true;
-                                    break;
-                                }
-                            }
-                            if (rowHasPixels) {
-                                paddingBottom = png.height - 1 - y;
-                                break;
-                            }
-                        }
-                    } catch (e) {
-                        console.warn(`[Scan] Could not calculate padding for ${file}:`, e.message);
-                    }
-                }
+                const padding =
+                    file.toLowerCase().endsWith('.png')
+                        ? computePadding(buffer, dimensions.width, dimensions.height)
+                        : { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
 
                 items.push({
                     id: id,
@@ -126,8 +125,7 @@ function scanItems() {
                     type: 'special',
                     width: dimensions.width,
                     height: dimensions.height,
-                    paddingTop: paddingTop,
-                    paddingBottom: paddingBottom,
+                    ...padding,
                     imageUrl: `/special/${file}`,
                     generated: true
                 });

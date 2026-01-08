@@ -8,6 +8,8 @@ export interface Item {
     imageUrl?: string; // Path to pixel art asset
     paddingTop?: number; // Visual padding from top in pixels
     paddingBottom?: number; // Visual padding from bottom in pixels
+    paddingLeft?: number; // Visual padding from left in pixels
+    paddingRight?: number; // Visual padding from right in pixels
 }
 
 export interface PlacedItem {

@@ -101,11 +101,22 @@ export const useMiniroom = () => {
             const itemDef = AVAILABLE_ITEMS.find((i) => i.id === itemId);
             if (!itemDef) return;
 
+            // Use visual bounding box (transparent padding trimmed) for initial placement
+            const paddingLeft = itemDef.paddingLeft || 0;
+            const paddingRight = itemDef.paddingRight || 0;
+            const paddingTop = itemDef.paddingTop || 0;
+            const paddingBottom = itemDef.paddingBottom || 0;
+            const contentWidth = Math.max(1, itemDef.width - paddingLeft - paddingRight);
+            const contentHeight = Math.max(1, itemDef.height - paddingTop - paddingBottom);
+
+            const posX = currentBackground.width / 2 - (paddingLeft + contentWidth / 2);
+            const posY = currentBackground.height / 2 - (paddingTop + contentHeight / 2);
+
             const newItem: PlacedItem = {
                 instanceId: uuidv4(),
                 itemId: itemId,
-                posX: currentBackground.width / 2 - itemDef.width / 2, // Center X
-                posY: currentBackground.height / 2 - itemDef.height / 2, // Center Y
+                posX,
+                posY,
                 rotation: 0,
                 isFlipped: false,
                 scale: 1,
