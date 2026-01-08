@@ -1,95 +1,101 @@
-# 🏠 싸이월드 감성 미니룸 꾸미기 (Miniroom Maker)
+# 🏠 Miniroom Maker (Cyworld Style)
 
-Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로젝트입니다.
-추억의 싸이월드 감성을 살려 나만의 미니룸을 꾸며보세요!
+[![Korean](https://img.shields.io/badge/Language-Korean-red?style=flat-square)](README.ko.md)
 
-🔗 **데모 사이트 (Live Demo)**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
+A **Drag & Drop Room Decorator** project built with Next.js and TypeScript.
+Create your own retro Cyworld-style miniroom!
 
-> **(2025.12.17 업데이트 v1.4.6)**: 아이템 앞뒤 순서 자동 정렬(Depth Sorting) 적용!
+🔗 **Live Demo**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
+
+> **(2026.01.09 Update v1.7.0)**:
+> *   **Tight Bounding Box**: Selects the actual visual content of the item, excluding transparent padding.
+> *   **Scalable Selection**: Selection box and toolbar utilize correct scaling, remaining crisp at any size.
+> *   **Boundary Collision**: Items can be placed tightly against walls, even when resize.
 
 ![Miniroom Demo](public/miniroom-preview.png)
 
-## ✨ 주요 기능
+## ✨ Key Features
 
-*   **🖱️ 드래그 앤 드롭 (Drag & Drop)**: 인벤토리에서 아이템을 꺼내 원하는 위치에 자유롭게 배치할 수 있습니다.
-*   **🎨 픽셀 아트 스타일 (Pixel Art)**: 고품질 픽셀 아트로 제작된 가구(의자, 테이블 등)를 제공합니다.
-*   **🛠️ 아이템 변형 (Transformation)**:
-    *   **회전 (Rotate)**: 선택된 아이템을 시계 방향으로 90도씩 회전시킵니다.
-    *   **반전 (Flip)**: 좌우 대칭으로 반전시킬 수 있습니다.
-    *   **크기 조절 (Resize)**: 툴바의 `+`, `-` 버튼으로 아이템 크기를 조절합니다 (0.5배 ~ 2.0배).
-*   **💾 아이템 관리 & 자동 저장**:
-    *   **선택 시스템**: 클릭하여 아이템을 선택하고, 배경을 클릭하여 해제합니다.
-    *   **삭제**: 선택 후 삭제 버튼을 누르거나 더블 클릭하여 삭제합니다.
-    *   **자동 저장**: 변경 사항은 실시간으로 자동 저장됩니다 (Simulation).
+*   **🖱️ Drag & Drop**: Freely place items from the inventory anywhere in the room.
+*   **🎨 Pixel Art Style**: High-quality pixel art furniture (chairs, tables, etc.).
+*   **🛠️ Item Transformation**:
+    *   **Rotate**: Rotate selected items 90 degrees clockwise.
+    *   **Flip**: Flip items horizontally.
+    *   **Resize**: Use `+`/`-` buttons in the toolbar to scale items (0.5x ~ 2.0x).
+    *   **Layering**: Adjust Z-order with `⬆` (Bring Forward) and `⬇` (Send Backward) buttons.
+*   **💾 Management & Auto-Save**:
+    *   **Precise Selection**: Selection outlines strictly follow the visible pixels of the item.
+    *   **Delete**: Remove items by double-clicking or using the delete button.
+    *   **Auto-Save**: Changes are automatically saved in real-time (simulated).
 
-## 🛠️ 기술 스택 (Tech Stack)
+## 🛠️ Tech Stack
 
 *   **Framework**: Next.js 16 (App Router)
 *   **Language**: TypeScript
 *   **Styling**: Tailwind CSS
 *   **Deploy**: Vercel (CI/CD Automated)
 
-## 🚀 실행 방법 (Getting Started)
+## 🚀 Getting Started
 
-로컬 환경에서 프로젝트를 실행하려면 다음 단계를 따르세요.
+Follow these steps to run the project locally.
 
-1.  **저장소 복제 (Clone)**
+1.  **Clone the Repository**
     ```bash
     git clone https://github.com/WoojinAhn/miniroom-demo.git
     cd miniroom-demo
     ```
 
-2.  **패키지 설치**
+2.  **Install Packages**
     ```bash
     npm install
     ```
 
-3.  **개발 서버 실행**
+3.  **Run Development Server**
     ```bash
     npm run dev
     ```
 
-4.  **브라우저 확인**
-    `http://localhost:3000`으로 접속하여 확인합니다.
+4.  **Open Browser**
+    Visit `http://localhost:3000` to see the app.
 
-## 🎨 아이템 추가 방법 (Adding New Items)
+## 🎨 Adding New Items
 
-`public/items/` 폴더에 이미지를 추가하고 푸시하면 **자동으로 인벤토리에 등록**됩니다!
+Simply add images to the `public/items/` folder and push. They will be **automatically registered** in the inventory!
 
-1. 이미지를 `public/items/`에 추가 (PNG 권장)
-2. 파일명은 `snake_case` 사용 (예: `shin_ramen.png`)
-3. 커밋 & 푸시
-4. 빌드 시 자동으로 인벤토리에 반영! 🎉
+1. Add image to `public/items/` (PNG recommended).
+2. Use `snake_case` for filenames (e.g., `shin_ramen.png`).
+3. Commit & Push.
+4. It will appear in the inventory automatically upon build! 🎉
 
-## 🌟 스페셜 아이템 추가 (Special Items)
+## 🌟 Adding Special Items
 
-`public/special/` 폴더에 이미지를 추가하면 **상단 스페셜 섹션**에 별도로 표시됩니다.
+Images added to `public/special/` will appear in the **Special Items** section at the top.
 
-1. 이미지를 `public/special/`에 추가 (예: `rocket.png`)
-2. 자동으로 'Special Items' 카테고리로 분류되어 인벤토리 최상단에 노출됩니다.
+1. Add image to `public/special/` (e.g., `rocket.png`).
+2. It will be categorized as a 'Special Item' and shown at the top of the inventory.
 
-> 💡 타입은 파일명 키워드로 자동 분류됩니다:
+> 💡 Types are auto-detected by keywords in the filename:
 > - `rug`, `plant`, `lamp`, `clock`, `mirror`, `frame`, `cup` → `decoration`
 > - `tv`, `fridge`, `cooker`, `induction`, `monitor` → `electronics`
-> - 그 외 → `furniture`
+> - Others → `furniture`
 
-## 📂 프로젝트 구조
+## 📂 Project Structure
 
 ```
 src/
 ├── app/
-│   ├── page.tsx               # 메인 페이지 (미니룸)
+│   ├── page.tsx               # Main Page (Miniroom)
 │   └── miniroom/
-│       ├── components/        # UI 컴포넌트
-│       │   ├── RoomCanvas.tsx     # 메인 캔버스
-│       │   ├── DraggableItem.tsx  # 개별 아이템 (드래그/회전 로직)
-│       │   └── Inventory.tsx      # 아이템 목록
+│       ├── components/        # UI Components
+│       │   ├── RoomCanvas.tsx     # Main Canvas
+│       │   ├── DraggableItem.tsx  # Draggable Item Logic
+│       │   └── Inventory.tsx      # Inventory List
 │       └── hooks/
-│           └── useMiniroom.ts     # 핵심 로직 (상태 관리, 이동, 삭제)
-├── types/                     # 타입 정의 (Room, Item, Transformation)
-└── data/                      # 목업 데이터 (초기 아이템 등)
+│           └── useMiniroom.ts     # Core Logic (State, Move, Delete)
+├── types/                     # Type Definitions (Room, Item, Transformation)
+└── data/                      # Mock Data (Initial Items)
 ```
 
-## 📝 라이선스
+## 📝 License
 
 MIT License
