@@ -6,6 +6,7 @@ export interface Item {
     height: number; // in pixels
     color?: string; // CSS color for placeholder
     imageUrl?: string; // Path to pixel art asset
+    paddingTop?: number; // Visual padding from top in pixels
 }
 
 export interface PlacedItem {

@@ -7,6 +7,7 @@ import { useMemo } from "react";
 // Helper to prevent event bubbling
 const stopPropagation = (e: React.PointerEvent | React.MouseEvent) => {
     e.stopPropagation();
+    e.preventDefault();
 };
 
 interface DraggableItemProps {
@@ -101,7 +102,7 @@ export const DraggableItem = ({
                     fontSize: "10px",
                     fontWeight: "bold",
                     transform: `scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
-                    transformOrigin: "top center",
+                    transformOrigin: "center bottom",
                     transition: "transform 0.2s ease-in-out",
                     // Outline only for non-image items (text placeholders)
                     outline: isSelected && !itemDef.imageUrl ? "2px solid #3b82f6" : "none",
@@ -132,11 +133,11 @@ export const DraggableItem = ({
                 <div
                     style={{
                         position: "absolute",
-                        // top: -45, // Fixed position relative to the container top
-                        top: "50%",
+                        top: "100%", // Position at the bottom of the container
                         left: "50%",
+                        marginTop: "10px", // Spacing from the bottom of the item
                         transformOrigin: "0 0",
-                        transform: `rotate(${-item.rotation}deg) translate(-50%, -${(itemDef.height * (item.scale || 1)) / 2 + 45}px)`,
+                        transform: `rotate(${-item.rotation}deg) translate(-50%, 0)`, // Counter-rotate and center horizontally
                         display: "flex",
                         gap: "4px",
                         backgroundColor: "white",
@@ -148,6 +149,7 @@ export const DraggableItem = ({
                         transition: "transform 0.2s ease-in-out",
                     }}
                     onPointerDown={stopPropagation}
+                    onClick={stopPropagation}
                     onDoubleClick={(e) => e.stopPropagation()} // Prevent double-click on toolbar from deleting the item
                 >
                     <button
