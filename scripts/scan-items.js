@@ -5,12 +5,19 @@ const { PNG } = require('pngjs');
 
 const ITEMS_DIR = path.join(__dirname, '../public/items');
 const OUTPUT_FILE = path.join(__dirname, '../src/data/generated-inventory.json');
+const TRIM_BASE = path.join(__dirname, '../public/trimmed');
+const TRIM_ITEMS_DIR = path.join(TRIM_BASE, 'items');
+const TRIM_SPECIAL_DIR = path.join(TRIM_BASE, 'special');
 
-// Ensure output directory exists (src/data should exist, but good to be safe)
+// Ensure output directories exist
 const outputDir = path.dirname(OUTPUT_FILE);
 if (!fs.existsSync(outputDir)) {
     fs.mkdirSync(outputDir, { recursive: true });
 }
+// Trimmed directories
+[TRIM_ITEMS_DIR, TRIM_SPECIAL_DIR].forEach((dir) => {
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+});
 
 function toTitleCase(str) {
     return str
@@ -85,6 +92,43 @@ function computePadding(buffer, width, height, fileName) {
     }
 }
 
+function trimPng(buffer, targetPath, fileName) {
+    try {
+        const target = sanitizePngBuffer(buffer);
+        const png = PNG.sync.read(target, { checkCRC: false });
+        let minX = png.width, minY = png.height, maxX = -1, maxY = -1;
+        for (let y = 0; y < png.height; y++) {
+            for (let x = 0; x < png.width; x++) {
+                const idx = (png.width * y + x) << 2;
+                const alpha = png.data[idx + 3];
+                if (alpha > 0) {
+                    if (x < minX) minX = x;
+                    if (y < minY) minY = y;
+                    if (x > maxX) maxX = x;
+                    if (y > maxY) maxY = y;
+                }
+            }
+        }
+        if (maxX === -1) {
+            // fully transparent, return original
+            return { buffer, bbox: { x: 0, y: 0, width: png.width, height: png.height } };
+        }
+        const bboxW = maxX - minX + 1;
+        const bboxH = maxY - minY + 1;
+        const out = new PNG({ width: bboxW, height: bboxH });
+        PNG.bitblt(png, out, minX, minY, bboxW, bboxH, 0, 0);
+        const trimmedBuffer = PNG.sync.write(out, { colorType: 6 });
+        fs.writeFileSync(targetPath, trimmedBuffer);
+        return { buffer: trimmedBuffer, bbox: { x: minX, y: minY, width: bboxW, height: bboxH } };
+    } catch (e) {
+        console.warn(`[Trim] Failed to trim ${fileName || 'unknown'}: ${e.message}`);
+        // Fallback: write original buffer to target
+        fs.writeFileSync(targetPath, buffer);
+        const dim = imageSize(buffer);
+        return { buffer, bbox: { x: 0, y: 0, width: dim.width, height: dim.height } };
+    }
+}
+
 function scanItems() {
     if (!fs.existsSync(ITEMS_DIR)) {
         console.warn(`[Scan] Items directory not found: ${ITEMS_DIR}`);
@@ -100,7 +144,40 @@ function scanItems() {
         const filePath = path.join(ITEMS_DIR, file);
         try {
             const buffer = fs.readFileSync(filePath);
-            const dimensions = imageSize(buffer);
+            let imageBuffer = buffer;
+            let dimensions;
+            let padding;
+            let imageUrl = `/items/${file}`;
+
+            if (file.toLowerCase().endsWith('.png')) {
+                const trimmedPath = path.join(TRIM_ITEMS_DIR, file);
+                const { buffer: tBuffer, bbox } = trimPng(buffer, trimmedPath, file);
+                imageBuffer = tBuffer;
+                dimensions = imageSize(tBuffer);
+                padding = {
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                    bboxX: 0,
+                    bboxY: 0,
+                    bboxWidth: dimensions.width,
+                    bboxHeight: dimensions.height,
+                };
+                imageUrl = `/trimmed/items/${file}`;
+            } else {
+                dimensions = imageSize(buffer);
+                padding = {
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                    bboxX: 0,
+                    bboxY: 0,
+                    bboxWidth: dimensions.width,
+                    bboxHeight: dimensions.height,
+                };
+            }
             const id = `item_${path.parse(file).name}`;
             const name = toTitleCase(path.parse(file).name);
 
@@ -114,20 +191,6 @@ function scanItems() {
                 type = 'electronics';
             }
 
-            const padding =
-                file.toLowerCase().endsWith('.png')
-                    ? computePadding(buffer, dimensions.width, dimensions.height, file)
-                    : {
-                          paddingTop: 0,
-                          paddingBottom: 0,
-                          paddingLeft: 0,
-                          paddingRight: 0,
-                          bboxX: 0,
-                          bboxY: 0,
-                          bboxWidth: dimensions.width,
-                          bboxHeight: dimensions.height,
-                      };
-
             items.push({
                 id: id,
                 name: name,
@@ -135,7 +198,7 @@ function scanItems() {
                 width: dimensions.width,
                 height: dimensions.height,
                 ...padding,
-                imageUrl: `/items/${file}`,
+                imageUrl: imageUrl,
                 generated: true // Flag to indicate auto-generated
             });
         } catch (err) {
@@ -153,23 +216,42 @@ function scanItems() {
             const filePath = path.join(SPECIAL_DIR, file);
             try {
             const buffer = fs.readFileSync(filePath);
-            const dimensions = imageSize(buffer);
+            let imageBuffer = buffer;
+            let dimensions;
+            let padding;
+            let imageUrl = `/special/${file}`;
+
+            if (file.toLowerCase().endsWith('.png')) {
+                const trimmedPath = path.join(TRIM_SPECIAL_DIR, file);
+                const { buffer: tBuffer, bbox } = trimPng(buffer, trimmedPath, file);
+                imageBuffer = tBuffer;
+                dimensions = imageSize(tBuffer);
+                padding = {
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                    bboxX: 0,
+                    bboxY: 0,
+                    bboxWidth: dimensions.width,
+                    bboxHeight: dimensions.height,
+                };
+                imageUrl = `/trimmed/special/${file}`;
+            } else {
+                dimensions = imageSize(buffer);
+                padding = {
+                    paddingTop: 0,
+                    paddingBottom: 0,
+                    paddingLeft: 0,
+                    paddingRight: 0,
+                    bboxX: 0,
+                    bboxY: 0,
+                    bboxWidth: dimensions.width,
+                    bboxHeight: dimensions.height,
+                };
+            }
                 const id = `special_${path.parse(file).name}`;
                 const name = toTitleCase(path.parse(file).name);
-
-                const padding =
-                    file.toLowerCase().endsWith('.png')
-                        ? computePadding(buffer, dimensions.width, dimensions.height, file)
-                        : {
-                              paddingTop: 0,
-                              paddingBottom: 0,
-                              paddingLeft: 0,
-                              paddingRight: 0,
-                              bboxX: 0,
-                              bboxY: 0,
-                              bboxWidth: dimensions.width,
-                              bboxHeight: dimensions.height,
-                          };
 
                 items.push({
                     id: id,
@@ -178,7 +260,7 @@ function scanItems() {
                     width: dimensions.width,
                     height: dimensions.height,
                     ...padding,
-                    imageUrl: `/special/${file}`,
+                    imageUrl,
                     generated: true
                 });
             } catch (err) {
