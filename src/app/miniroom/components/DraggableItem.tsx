@@ -136,7 +136,7 @@ export const DraggableItem = ({
                         top: "50%",
                         left: "50%",
                         transformOrigin: "0 0",
-                        transform: `rotate(${-item.rotation}deg) translate(-50%, -${itemDef.height / 2 + 45}px)`,
+                        transform: `rotate(${-item.rotation}deg) translate(-50%, -${(itemDef.height * (item.scale || 1)) / 2 + 45}px)`,
                         display: "flex",
                         gap: "4px",
                         backgroundColor: "white",
