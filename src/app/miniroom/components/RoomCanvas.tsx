@@ -94,17 +94,16 @@ export const RoomCanvas = ({
                         onScale={(delta) => onScaleItem(item.instanceId, delta)}
                         onBringForward={() => onBringForward(item.instanceId)}
                         onSendBackward={() => onSendBackward(item.instanceId)}
-                        // Depth Sorting: use visual bottom after trimming padding
+                        // Depth Sorting: use bbox bottom with scale
                         zIndex={Math.floor(
                             item.posY +
-                                (itemDef.paddingTop || 0) +
-                                Math.max(
-                                    1,
-                                    (itemDef.height -
-                                        (itemDef.paddingTop || 0) -
-                                        (itemDef.paddingBottom || 0)) *
-                                        (item.scale || 1)
-                                )
+                                (itemDef.bboxY ?? itemDef.paddingTop ?? 0) * (item.scale || 1) +
+                                (itemDef.bboxHeight ??
+                                    Math.max(
+                                        1,
+                                        (itemDef.height - (itemDef.paddingTop || 0) - (itemDef.paddingBottom || 0)) *
+                                            (item.scale || 1)
+                                    ))
                         )}
                     />
                 );

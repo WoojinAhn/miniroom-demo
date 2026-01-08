@@ -10,6 +10,11 @@ export interface Item {
     paddingBottom?: number; // Visual padding from bottom in pixels
     paddingLeft?: number; // Visual padding from left in pixels
     paddingRight?: number; // Visual padding from right in pixels
+    // Tight bounding box of non-transparent pixels within the sprite
+    bboxX?: number;
+    bboxY?: number;
+    bboxWidth?: number;
+    bboxHeight?: number;
 }
 
 export interface PlacedItem {

@@ -48,16 +48,21 @@ export const DraggableItem = ({
     const paddingBottom = itemDef.paddingBottom || 0;
     const contentWidth = Math.max(1, itemDef.width - paddingLeft - paddingRight);
     const contentHeight = Math.max(1, itemDef.height - paddingTop - paddingBottom);
+    const bboxX = itemDef.bboxX ?? paddingLeft;
+    const bboxY = itemDef.bboxY ?? paddingTop;
+    const bboxWidth = itemDef.bboxWidth ?? contentWidth;
+    const bboxHeight = itemDef.bboxHeight ?? contentHeight;
+    const scale = item.scale || 1;
 
     const handleDrag = (dx: number, dy: number) => {
         let newX = item.posX + dx;
         let newY = item.posY + dy;
 
         // Clamp using visual box (ignore transparent padding)
-        const minX = paddingLeft;
-        const minY = paddingTop;
-        const maxX = bounds.width - contentWidth + paddingLeft;
-        const maxY = bounds.height - contentHeight + paddingTop;
+        const minX = bboxX;
+        const minY = bboxY;
+        const maxX = bounds.width - bboxWidth + bboxX;
+        const maxY = bounds.height - bboxHeight + bboxY;
 
         newX = Math.max(minX, Math.min(newX, maxX));
         newY = Math.max(minY, Math.min(newY, maxY));
@@ -114,8 +119,8 @@ export const DraggableItem = ({
                     color: "white",
                     fontSize: "10px",
                     fontWeight: "bold",
-                    transform: `translate(${-paddingLeft}px, ${-paddingTop}px) scale(${item.scale || 1}) scaleX(${item.isFlipped ? -1 : 1})`,
-                    transformOrigin: `${paddingLeft + contentWidth / 2}px ${paddingTop + contentHeight}px`,
+                    transform: `translate(${-bboxX}px, ${-bboxY}px) scale(${scale}) scaleX(${item.isFlipped ? -1 : 1})`,
+                    transformOrigin: `${bboxX + bboxWidth / 2}px ${bboxY + bboxHeight}px`,
                     transition: "transform 0.2s ease-in-out",
                     // Outline only for non-image items (text placeholders)
                     outline: isSelected && !itemDef.imageUrl ? "2px solid #3b82f6" : "none",

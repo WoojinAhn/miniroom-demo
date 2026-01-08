@@ -47,17 +47,41 @@ function computePadding(buffer, width, height, fileName) {
         }
         if (maxX === -1) {
             // fully transparent fallback
-            return { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+            return {
+                paddingTop: 0,
+                paddingBottom: 0,
+                paddingLeft: 0,
+                paddingRight: 0,
+                bboxX: 0,
+                bboxY: 0,
+                bboxWidth: 0,
+                bboxHeight: 0,
+            };
         }
+        const bboxWidth = maxX - minX + 1;
+        const bboxHeight = maxY - minY + 1;
         return {
             paddingTop: minY,
             paddingBottom: height - 1 - maxY,
             paddingLeft: minX,
             paddingRight: width - 1 - maxX,
+            bboxX: minX,
+            bboxY: minY,
+            bboxWidth,
+            bboxHeight,
         };
     } catch (e) {
         console.warn(`[Scan] Could not calculate padding for ${fileName || 'unknown'} (using defaults): ${e.message}`);
-        return { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+        return {
+            paddingTop: 0,
+            paddingBottom: 0,
+            paddingLeft: 0,
+            paddingRight: 0,
+            bboxX: 0,
+            bboxY: 0,
+            bboxWidth: width,
+            bboxHeight: height,
+        };
     }
 }
 
@@ -93,7 +117,16 @@ function scanItems() {
             const padding =
                 file.toLowerCase().endsWith('.png')
                     ? computePadding(buffer, dimensions.width, dimensions.height, file)
-                    : { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+                    : {
+                          paddingTop: 0,
+                          paddingBottom: 0,
+                          paddingLeft: 0,
+                          paddingRight: 0,
+                          bboxX: 0,
+                          bboxY: 0,
+                          bboxWidth: dimensions.width,
+                          bboxHeight: dimensions.height,
+                      };
 
             items.push({
                 id: id,
@@ -127,7 +160,16 @@ function scanItems() {
                 const padding =
                     file.toLowerCase().endsWith('.png')
                         ? computePadding(buffer, dimensions.width, dimensions.height, file)
-                        : { paddingTop: 0, paddingBottom: 0, paddingLeft: 0, paddingRight: 0 };
+                        : {
+                              paddingTop: 0,
+                              paddingBottom: 0,
+                              paddingLeft: 0,
+                              paddingRight: 0,
+                              bboxX: 0,
+                              bboxY: 0,
+                              bboxWidth: dimensions.width,
+                              bboxHeight: dimensions.height,
+                          };
 
                 items.push({
                     id: id,

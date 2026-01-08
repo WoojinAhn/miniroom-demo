@@ -198,7 +198,7 @@ import generatedItems from "./generated-inventory.json";
 const generatedMap = new Map<string, any>();
 generatedItems.forEach((gen) => generatedMap.set(gen.id, gen));
 
-// Merge padding metadata into existing hardcoded items (do not override ids or explicit values)
+// Merge padding/bbox metadata into existing hardcoded items (do not override ids or explicit values)
 AVAILABLE_ITEMS.forEach((item, idx) => {
     const gen = generatedMap.get(item.id);
     if (!gen) return;
@@ -208,6 +208,10 @@ AVAILABLE_ITEMS.forEach((item, idx) => {
         paddingBottom: item.paddingBottom ?? gen.paddingBottom,
         paddingLeft: item.paddingLeft ?? gen.paddingLeft,
         paddingRight: item.paddingRight ?? gen.paddingRight,
+        bboxX: item.bboxX ?? gen.bboxX,
+        bboxY: item.bboxY ?? gen.bboxY,
+        bboxWidth: item.bboxWidth ?? gen.bboxWidth,
+        bboxHeight: item.bboxHeight ?? gen.bboxHeight,
     };
 });
 
