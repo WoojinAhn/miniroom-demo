@@ -7,15 +7,7 @@ Create your own retro Cyworld-style miniroom!
 
 🔗 **Live Demo**: [https://miniroom-demo.vercel.app](https://miniroom-demo.vercel.app)
 
->### v1.8.0 (2026-01-09)
-- **Mobile Responsive Design**: Vertical layout for mobile screens (Canvas top, Inventory bottom)
-- **Responsive Canvas**: Room canvas automatically scales to fit screen width
-- **Inventory Optimization**: Improved inventory layout for mobile devices
 
-### v1.7.0 (2026-01-09)
-*   **Tight Bounding Box**: Selects the actual visual content of the item, excluding transparent padding.
-*   **Scalable Selection**: Selection box and toolbar utilize correct scaling, remaining crisp at any size.
-*   **Boundary Collision**: Items can be placed tightly against walls, even when resize.
 
 ![Miniroom Demo](public/miniroom-preview.png)
 
