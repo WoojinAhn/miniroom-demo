@@ -45,8 +45,9 @@ export const RoomCanvas = ({
         const el = containerRef.current;
         if (!el) return;
         const resize = () => {
-            setMeasuredWidth(el.clientWidth || width);
-            setMeasuredHeight(el.clientHeight || height);
+            const rect = el.getBoundingClientRect();
+            setMeasuredWidth(rect.width || width);
+            setMeasuredHeight(rect.height || height);
         };
         resize();
         const observer = new ResizeObserver(resize);
@@ -64,14 +65,13 @@ export const RoomCanvas = ({
                 }
             }}
             style={{
-                width: width,
-                height: height,
+                width,
+                height,
                 backgroundImage: `url(${room.background})`,
                 backgroundSize: "cover",
                 backgroundPosition: "center",
                 backgroundColor: "#f0f0f0", // Fallback
                 position: "relative",
-                border: "1px solid #ccc",
                 transition: "width 0.3s ease-in-out, height 0.3s ease-in-out",
                 // overflow: "hidden", // Removed to allow unlimited scaling without clipping
             }}
