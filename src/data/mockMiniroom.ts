@@ -11,15 +11,6 @@ export const AVAILABLE_ITEMS: Item[] = [
         imageUrl: "/items/chair.png",
     },
     {
-        id: "item_table_wood",
-        name: "Wooden Table",
-        type: "furniture",
-        width: 100,
-        height: 60,
-        color: "#d35400",
-        imageUrl: "/items/table.png",
-    },
-    {
         id: "item_rug_blue",
         name: "Blue Rug",
         type: "decoration",
