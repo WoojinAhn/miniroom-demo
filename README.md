@@ -74,10 +74,7 @@ Images added to `public/special/` will appear in the **Special Items** section a
 1. Add image to `public/special/` (e.g., `rocket.png`).
 2. It will be categorized as a 'Special Item' and shown at the top of the inventory.
 
-> 💡 Types are auto-detected by keywords in the filename:
-> - `rug`, `plant`, `lamp`, `clock`, `mirror`, `frame`, `cup` → `decoration`
-> - `tv`, `fridge`, `cooker`, `induction`, `monitor` → `electronics`
-> - Others → `furniture`
+
 
 ## 📂 Project Structure
 

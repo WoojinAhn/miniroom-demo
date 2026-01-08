@@ -74,10 +74,7 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 1. 이미지를 `public/special/`에 추가 (예: `rocket.png`)
 2. 자동으로 'Special Items' 카테고리로 분류되어 인벤토리 최상단에 노출됩니다.
 
-> 💡 타입은 파일명 키워드로 자동 분류됩니다:
-> - `rug`, `plant`, `lamp`, `clock`, `mirror`, `frame`, `cup` → `decoration`
-> - `tv`, `fridge`, `cooker`, `induction`, `monitor` → `electronics`
-> - 그 외 → `furniture`
+
 
 ## 📂 프로젝트 구조
 
