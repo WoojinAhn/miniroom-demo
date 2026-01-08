@@ -5,9 +5,20 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.6.3";
+export const APP_VERSION = "v1.7.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.7.0",
+        date: "2026-01-09",
+        features: [
+            "Tight Bounding Box: Selection outline now hugs the actual visual content of the item",
+            "Scalable Selection: Selection box and toolbar now scale correctly with the item",
+            "Improved Boundary Collision: Items can be placed tightly against walls even when scaled",
+            "Auto-Padding Detection: Automatically calculates visual padding for accurate selection",
+        ],
+        fixes: ["Restored 'Double Click to Remove' functionality"],
+    },
     {
         version: "v1.6.3",
         date: "2025-12-18",
