@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { Room, Item } from "@/types/miniroom";
 import { DraggableItem } from "./DraggableItem";
 
@@ -36,8 +37,26 @@ export const RoomCanvas = ({
     width,
     height,
 }: RoomCanvasProps) => {
+    const containerRef = useRef<HTMLDivElement | null>(null);
+    const [measuredWidth, setMeasuredWidth] = useState(width);
+    const [measuredHeight, setMeasuredHeight] = useState(height);
+
+    useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+        const resize = () => {
+            setMeasuredWidth(el.clientWidth || width);
+            setMeasuredHeight(el.clientHeight || height);
+        };
+        resize();
+        const observer = new ResizeObserver(resize);
+        observer.observe(el);
+        return () => observer.disconnect();
+    }, [width, height]);
+
     return (
         <div
+            ref={containerRef}
             onPointerDown={(e) => {
                 // Only trigger if clicking the background itself, not a child
                 if (e.target === e.currentTarget) {
@@ -67,7 +86,7 @@ export const RoomCanvas = ({
                         itemDef={itemDef}
                         onUpdate={onUpdateItem}
                         onDelete={onDeleteItem}
-                        bounds={{ width, height }}
+                        bounds={{ width: measuredWidth, height: measuredHeight }}
                         isSelected={selectedItemId === item.instanceId}
                         onSelect={() => onSelectItem(item.instanceId)}
                         onRotate={() => onRotateItem(item.instanceId)}
