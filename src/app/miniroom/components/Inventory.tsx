@@ -10,19 +10,19 @@ interface InventoryProps {
 export const Inventory = ({ items, onAddItem }: InventoryProps) => {
     return (
         <div className="flex flex-col gap-4 p-4 border-t md:border-t-0 md:border-l border-gray-200 w-full md:w-64 bg-white h-auto md:h-[600px] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-2">Inventory</h2>
+            <h2 className="text-xl font-bold mb-2 flex-shrink-0">Inventory</h2>
             {/* Special Items Section */}
             {items.some(i => i.type === 'special') && (
-                <div className="mb-6">
+                <div className="mb-6 flex-shrink-0">
                     <h3 className="text-sm font-bold text-indigo-600 mb-2 uppercase tracking-wider">Special Items</h3>
-                    <div className="grid grid-cols-2 gap-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100">
+                    <div className="flex overflow-x-auto md:grid md:grid-cols-2 gap-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100">
                         {items
                             .filter(item => item.type === 'special')
                             .map((item) => (
                                 <button
                                     key={item.id}
                                     onClick={() => onAddItem(item.id)}
-                                    className="flex flex-col items-center p-2 bg-white border border-indigo-200 rounded hover:bg-indigo-100 hover:border-indigo-300 transition shadow-sm"
+                                    className="flex-shrink-0 w-24 md:w-auto flex flex-col items-center p-2 bg-white border border-indigo-200 rounded hover:bg-indigo-100 hover:border-indigo-300 transition shadow-sm"
                                 >
                                     <div
                                         className="mb-2 relative flex items-center justify-center"
@@ -51,15 +51,15 @@ export const Inventory = ({ items, onAddItem }: InventoryProps) => {
             )}
 
             {/* General Inventory */}
-            <h3 className="text-sm font-bold text-gray-500 mb-2 uppercase tracking-wider">General Items</h3>
-            <div className="grid grid-cols-2 gap-2">
+            <h3 className="text-sm font-bold text-gray-500 mb-2 uppercase tracking-wider flex-shrink-0">General Items</h3>
+            <div className="flex-shrink-0 flex overflow-x-auto md:grid md:grid-cols-2 gap-2 pb-2 md:pb-0">
                 {items
                     .filter(item => item.type !== 'special')
                     .map((item) => (
                         <button
                             key={item.id}
                             onClick={() => onAddItem(item.id)}
-                            className="flex flex-col items-center p-2 border border-gray-100 rounded hover:bg-gray-50 transition"
+                            className="flex-shrink-0 w-24 md:w-auto flex flex-col items-center p-2 border border-gray-100 rounded hover:bg-gray-50 transition"
                         >
                             <div
                                 className="mb-2 relative flex items-center justify-center"
