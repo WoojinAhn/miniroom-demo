@@ -5,9 +5,20 @@ This document outlines the critical rules and conventions established for the Mi
 ## 1. Version Control & Changelog
 - **File**: `src/config/appVersion.ts`
 - **Rule**: Every significant change or feature addition **MUST** result in a version bump.
+- **Timing**: 이슈 종결 후 버전 업데이트 필요 여부를 검토한다.
+- **Version Types** (Semantic Versioning):
+  | Type | When to Use | Example |
+  |------|-------------|---------|
+  | **Major** (vX.0.0) | 큰 변경, 호환성 깨짐 | v2.0.0 |
+  | **Minor** (v1.X.0) | 새 기능 추가 | v1.10.0 |
+  | **Patch** (v1.9.X) | 버그 수정, 미세 조정 | v1.9.1 |
 - **Protocol**:
   1. Increment `APP_VERSION`.
   2. Add a new entry to the `CHANGELOG` array with the date and list of features/fixes.
+- **Workflow**:
+  ```
+  이슈 생성 → 브랜치 → 작업 → PR → 머지 → 이슈 종결 → 버전 업데이트 검토
+  ```
 
 ## 2. Resource Management
 - **Directory Structure**:
