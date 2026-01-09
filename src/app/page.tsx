@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useMiniroom } from "@/app/miniroom/hooks/useMiniroom";
 import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
 import { ChangelogModal } from "@/app/miniroom/components/ChangelogModal";
 import { MobileControlPanel } from "@/app/miniroom/components/MobileControlPanel";
+import { useItemPinchScale } from "@/app/miniroom/hooks/useItemPinchScale";
 import { APP_VERSION, CHANGELOG } from "@/config/appVersion";
 import { AVAILABLE_ITEMS } from "@/data/mockMiniroom";
 import { BACKGROUNDS } from "@/data/backgrounds";
@@ -39,6 +40,17 @@ export default function MiniroomPage() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Pinch to scale selected item (mobile only)
+  const handlePinchScale = useCallback((itemId: string, delta: number) => {
+    scaleItem(itemId, delta);
+  }, [scaleItem]);
+
+  const { containerRef: pinchContainerRef } = useItemPinchScale({
+    enabled: isMobile,
+    selectedItemId,
+    onScale: handlePinchScale,
+  });
 
   // Mobile control panel handlers
   const handleMobileRotate = () => {
@@ -84,7 +96,7 @@ export default function MiniroomPage() {
             </button>
           </h1>
           <p className="text-gray-500 text-sm md:text-base">
-            {isMobile ? "Tap to select • Use buttons to edit" : "Drag to move • Double click to remove"}
+            {isMobile ? "Tap to select • Pinch to resize" : "Drag to move • Double click to remove"}
           </p>
         </div>
         <div className="flex items-center gap-2">
@@ -113,7 +125,8 @@ export default function MiniroomPage() {
             ))}
           </div>
 
-          {/* Room Canvas */}
+          {/* Room Canvas with Pinch-to-Scale support */}
+          <div ref={pinchContainerRef} className="touch-none">
           <RoomCanvas
             room={room}
             availableItems={AVAILABLE_ITEMS}
@@ -130,6 +143,7 @@ export default function MiniroomPage() {
             width={currentBackground.width}
             height={currentBackground.height}
           />
+          </div>
 
           {/* Mobile Control Panel - Right below the canvas */}
           <MobileControlPanel
