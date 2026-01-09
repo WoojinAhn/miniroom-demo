@@ -5,9 +5,18 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.10.0";
+export const APP_VERSION = "v1.10.1";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.10.1",
+        date: "2026-01-10",
+        features: [],
+        fixes: [
+            "Removed dead code (unused useDebounce function)",
+            "Cleaned up AI-generated comments in useMiniroom.ts",
+        ],
+    },
     {
         version: "v1.10.0",
         date: "2026-01-10",
