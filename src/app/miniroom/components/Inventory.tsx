@@ -9,12 +9,12 @@ interface InventoryProps {
 
 export const Inventory = ({ items, onAddItem }: InventoryProps) => {
     return (
-        <div className="flex flex-col gap-4 p-4 border-t md:border-t-0 md:border-l border-gray-200 w-full md:w-64 bg-white h-auto md:h-[600px] overflow-y-auto">
+        <div className="flex flex-col gap-2 p-2 md:p-4 border-t md:border-t-0 md:border-l border-gray-200 w-full md:w-64 bg-white h-auto md:h-[600px] overflow-y-auto">
             {/* Inventory title removed for cleaner mobile UI */}
             {/* Special Items Section */}
             {items.some(i => i.type === 'special') && (
-                <div className="mb-6 flex-shrink-0">
-                    <h3 className="text-sm font-bold text-indigo-600 mb-2 uppercase tracking-wider">Special Items</h3>
+                <div className="mb-1 flex-shrink-0">
+                    <h3 className="text-sm font-bold text-indigo-600 mb-1 uppercase tracking-wider">Special Items</h3>
                     <div className="flex overflow-x-auto md:grid md:grid-cols-2 gap-2 p-2 bg-indigo-50 rounded-lg border border-indigo-100">
                         {items
                             .filter(item => item.type === 'special')
@@ -51,7 +51,7 @@ export const Inventory = ({ items, onAddItem }: InventoryProps) => {
             )}
 
             {/* General Inventory */}
-            <h3 className="text-sm font-bold text-gray-500 mb-2 uppercase tracking-wider flex-shrink-0">General Items</h3>
+            <h3 className="text-sm font-bold text-gray-500 mb-1 uppercase tracking-wider flex-shrink-0">General Items</h3>
             <div className="flex-shrink-0 flex overflow-x-auto md:grid md:grid-cols-2 gap-2 pb-2 md:pb-0">
                 {items
                     .filter(item => item.type !== 'special')
