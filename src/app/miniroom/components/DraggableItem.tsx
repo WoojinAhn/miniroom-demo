@@ -167,8 +167,9 @@ export const DraggableItem = ({
                 )}
             </div>
 
-            {/* Toolbar: Separated from scaling context */}
+            {/* Toolbar: Separated from scaling context - Hidden on mobile (md:block) */}
             {isSelected && (
+                <div className="hidden md:block">
                 <div
                     style={{
                         position: "absolute",
@@ -283,6 +284,7 @@ export const DraggableItem = ({
                     >
                         ✕
                     </button>
+                </div>
                 </div>
             )}
         </div>

@@ -5,9 +5,20 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.8.0";
+export const APP_VERSION = "v1.9.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.9.0",
+        date: "2026-01-09",
+        features: [
+            "Mobile Control Panel: Fixed bottom toolbar for easy item manipulation on mobile",
+            "Pinch to Zoom: Two-finger zoom and pan on mobile devices",
+            "Mobile UX: Hidden inline toolbar on mobile, replaced with larger touch-friendly controls",
+            "Reset Zoom: Quick button to reset pinch zoom to default",
+        ],
+        fixes: [],
+    },
     {
         version: "v1.8.0",
         date: "2026-01-09",

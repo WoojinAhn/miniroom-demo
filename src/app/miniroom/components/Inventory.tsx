@@ -10,7 +10,7 @@ interface InventoryProps {
 export const Inventory = ({ items, onAddItem }: InventoryProps) => {
     return (
         <div className="flex flex-col gap-4 p-4 border-t md:border-t-0 md:border-l border-gray-200 w-full md:w-64 bg-white h-auto md:h-[600px] overflow-y-auto">
-            <h2 className="text-xl font-bold mb-2 flex-shrink-0">Inventory</h2>
+            {/* Inventory title removed for cleaner mobile UI */}
             {/* Special Items Section */}
             {items.some(i => i.type === 'special') && (
                 <div className="mb-6 flex-shrink-0">
