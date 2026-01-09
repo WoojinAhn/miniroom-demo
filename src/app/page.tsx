@@ -6,7 +6,6 @@ import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
 import { ChangelogModal } from "@/app/miniroom/components/ChangelogModal";
 import { MobileControlPanel } from "@/app/miniroom/components/MobileControlPanel";
-import { usePinchZoom } from "@/app/miniroom/hooks/usePinchZoom";
 import { APP_VERSION, CHANGELOG } from "@/config/appVersion";
 import { AVAILABLE_ITEMS } from "@/data/mockMiniroom";
 import { BACKGROUNDS } from "@/data/backgrounds";
@@ -30,13 +29,6 @@ export default function MiniroomPage() {
     setBackground,
     currentBackground,
   } = useMiniroom();
-
-  // Pinch Zoom - only enabled on mobile
-  const { scale: pinchScale, translateX, translateY, containerRef, resetZoom, isZoomed } = usePinchZoom({
-    minScale: 1,
-    maxScale: 3,
-    enabled: isMobile,
-  });
 
   // Detect mobile on mount
   useEffect(() => {
@@ -92,24 +84,16 @@ export default function MiniroomPage() {
             </button>
           </h1>
           <p className="text-gray-500 text-sm md:text-base">
-            {isMobile ? "Tap to select • Pinch to zoom" : "Drag to move • Double click to remove"}
+            {isMobile ? "Tap to select • Use buttons to edit" : "Drag to move • Double click to remove"}
           </p>
         </div>
         <div className="flex items-center gap-2">
-          {isZoomed && isMobile && (
-            <button
-              onClick={resetZoom}
-              className="text-xs bg-orange-100 text-orange-700 px-2 py-1 rounded-full hover:bg-orange-200 transition"
-            >
-              Reset Zoom
-            </button>
-          )}
           <span className="text-gray-400 text-sm">All changes saved</span>
         </div>
       </header>
 
       <main className="max-w-5xl mx-auto flex flex-col md:flex-row shadow-xl rounded-xl overflow-hidden bg-white">
-        <div className="flex flex-col gap-4 w-full">
+        <div className="flex flex-col w-full">
           {/* Background Selector - Horizontal scroll on mobile */}
           <div className="flex gap-2 p-2 bg-gray-50 border-b overflow-x-auto">
             <span className="text-sm font-bold text-gray-700 flex items-center pr-2 flex-shrink-0">
@@ -129,34 +113,23 @@ export default function MiniroomPage() {
             ))}
           </div>
 
-          {/* Pinch Zoom Container - wraps RoomCanvas on mobile */}
-          <div
-            ref={containerRef}
-            className="relative overflow-hidden touch-none"
-            style={{
-              // Only apply pinch zoom transform on mobile
-              transform: isMobile ? `scale(${pinchScale}) translate(${translateX / pinchScale}px, ${translateY / pinchScale}px)` : undefined,
-              transformOrigin: "center center",
-              transition: pinchScale === 1 ? "transform 0.2s ease-out" : undefined,
-            }}
-          >
-            <RoomCanvas
-              room={room}
-              availableItems={AVAILABLE_ITEMS}
-              onUpdateItem={moveItem}
-              onDeleteItem={deleteItem}
-              selectedItemId={selectedItemId}
-              onSelectItem={selectItem}
-              onRotateItem={rotateItem}
-              onFlipItem={flipItem}
-              onScaleItem={scaleItem}
-              onBringForward={bringForward}
-              onSendBackward={sendBackward}
-              onBackgroundClick={() => selectItem(null)}
-              width={currentBackground.width}
-              height={currentBackground.height}
-            />
-          </div>
+          {/* Room Canvas */}
+          <RoomCanvas
+            room={room}
+            availableItems={AVAILABLE_ITEMS}
+            onUpdateItem={moveItem}
+            onDeleteItem={deleteItem}
+            selectedItemId={selectedItemId}
+            onSelectItem={selectItem}
+            onRotateItem={rotateItem}
+            onFlipItem={flipItem}
+            onScaleItem={scaleItem}
+            onBringForward={bringForward}
+            onSendBackward={sendBackward}
+            onBackgroundClick={() => selectItem(null)}
+            width={currentBackground.width}
+            height={currentBackground.height}
+          />
 
           {/* Mobile Control Panel - Right below the canvas */}
           <MobileControlPanel
