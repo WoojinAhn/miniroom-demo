@@ -5,9 +5,19 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.9.0";
+export const APP_VERSION = "v1.9.1";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.9.1",
+        date: "2026-01-09",
+        features: [],
+        fixes: [
+            "Removed Wooden Table item (missing image file)",
+            "Reduced spacing between Special Items and General Items sections",
+            "Tighter padding on mobile inventory for better space usage",
+        ],
+    },
     {
         version: "v1.9.0",
         date: "2026-01-09",
