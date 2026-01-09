@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.9.1";
+export const APP_VERSION = "v1.10.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.10.0",
+        date: "2026-01-10",
+        features: [
+            "Random Item Placement: Items now placed at random positions instead of center",
+        ],
+        fixes: [],
+    },
     {
         version: "v1.9.1",
         date: "2026-01-09",
