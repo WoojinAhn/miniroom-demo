@@ -99,9 +99,6 @@ export default function MiniroomPage() {
             {isMobile ? "Tap to select • Pinch to resize" : "Drag to move • Double click to remove"}
           </p>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="text-gray-400 text-sm">All changes saved</span>
-        </div>
       </header>
 
       <main className="max-w-5xl mx-auto flex flex-col md:flex-row shadow-xl rounded-xl overflow-hidden bg-white">
