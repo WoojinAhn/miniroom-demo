@@ -78,7 +78,7 @@ export default function MiniroomPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 p-4 md:p-8 font-sans pb-20 md:pb-8">
+    <div className="min-h-screen bg-gray-100 p-4 md:p-8 font-sans">
       <header className="mb-4 md:mb-6 flex flex-col md:flex-row justify-between items-start md:items-center max-w-5xl mx-auto gap-2">
         <div>
           <h1 className="text-xl md:text-2xl font-bold text-gray-800 flex items-center gap-2">
@@ -157,25 +157,25 @@ export default function MiniroomPage() {
               height={currentBackground.height}
             />
           </div>
+
+          {/* Mobile Control Panel - Right below the canvas */}
+          <MobileControlPanel
+            isVisible={isMobile && selectedItemId !== null}
+            onRotate={handleMobileRotate}
+            onFlip={handleMobileFlip}
+            onScaleUp={handleMobileScaleUp}
+            onScaleDown={handleMobileScaleDown}
+            onBringForward={handleMobileBringForward}
+            onSendBackward={handleMobileSendBackward}
+            onDelete={handleMobileDelete}
+            onDeselect={handleDeselect}
+          />
         </div>
         <Inventory
           items={AVAILABLE_ITEMS.filter((i) => i.type !== "character")}
           onAddItem={placeItem}
         />
       </main>
-
-      {/* Mobile Control Panel - Only visible on mobile when item is selected */}
-      <MobileControlPanel
-        isVisible={isMobile && selectedItemId !== null}
-        onRotate={handleMobileRotate}
-        onFlip={handleMobileFlip}
-        onScaleUp={handleMobileScaleUp}
-        onScaleDown={handleMobileScaleDown}
-        onBringForward={handleMobileBringForward}
-        onSendBackward={handleMobileSendBackward}
-        onDelete={handleMobileDelete}
-        onDeselect={handleDeselect}
-      />
 
       {/* Changelog Modal */}
       <ChangelogModal

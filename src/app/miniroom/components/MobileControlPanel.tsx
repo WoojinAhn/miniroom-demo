@@ -26,13 +26,7 @@ export const MobileControlPanel = ({
     if (!isVisible) return null;
 
     return (
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg safe-area-bottom">
-            {/* Backdrop tap to deselect */}
-            <div 
-                className="absolute -top-screen left-0 right-0 h-screen pointer-events-none"
-                onClick={onDeselect}
-            />
-            
+        <div className="md:hidden bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200 shadow-inner">
             <div className="flex items-center justify-between px-4 py-3 gap-2">
                 {/* Transform Group */}
                 <div className="flex items-center gap-1">
