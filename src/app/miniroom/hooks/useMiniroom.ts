@@ -101,11 +101,18 @@ export const useMiniroom = () => {
             const itemDef = AVAILABLE_ITEMS.find((i) => i.id === itemId);
             if (!itemDef) return;
 
+            // Random position within canvas bounds (with some padding)
+            const padding = 50;
+            const maxX = currentBackground.width - itemDef.width - padding;
+            const maxY = currentBackground.height - itemDef.height - padding;
+            const randomX = padding + Math.random() * Math.max(0, maxX - padding);
+            const randomY = padding + Math.random() * Math.max(0, maxY - padding);
+
             const newItem: PlacedItem = {
                 instanceId: uuidv4(),
                 itemId: itemId,
-                posX: currentBackground.width / 2 - itemDef.width / 2, // Center X
-                posY: currentBackground.height / 2 - itemDef.height / 2, // Center Y
+                posX: randomX,
+                posY: randomY,
                 rotation: 0,
                 isFlipped: false,
                 scale: 1,
