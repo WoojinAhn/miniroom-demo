@@ -20,10 +20,14 @@ Create your own retro **Dotori World** style miniroom!
     *   **Flip**: Flip items horizontally.
     *   **Resize**: Use `+`/`-` buttons in the toolbar to scale items (0.5x ~ 2.0x).
     *   **Layering**: Adjust Z-order with `⬆` (Bring Forward) and `⬇` (Send Backward) buttons.
-*   **💾 Management & Auto-Save**:
+*   **📱 Mobile Support**:
+    *   **Touch-friendly Control Panel**: Fixed bottom toolbar for easy item manipulation on mobile.
+    *   **Pinch to Resize**: Two-finger pinch gesture to scale selected items.
+    *   **Responsive Layout**: Canvas and inventory adapt to screen size.
+*   **🎲 Random Placement**: Items are placed at random positions to avoid overlap confusion.
+*   **💾 Item Management**:
     *   **Precise Selection**: Selection outlines strictly follow the visible pixels of the item.
     *   **Delete**: Remove items by double-clicking or using the delete button.
-    *   **Auto-Save**: Changes are automatically saved in real-time (simulated).
 
 ## 🛠️ Tech Stack
 
