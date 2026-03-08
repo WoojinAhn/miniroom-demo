@@ -23,6 +23,7 @@ export default function MiniroomPage() {
     room,
     placeItem,
     moveItem,
+    endDrag,
     deleteItem,
     selectedItemId,
     selectItem,
@@ -34,6 +35,10 @@ export default function MiniroomPage() {
     setBackground,
     currentBackground,
     loadTemplate,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
   } = useMiniroom();
 
   // Detect mobile on mount
@@ -45,6 +50,25 @@ export default function MiniroomPage() {
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+
+  // Keyboard shortcuts: Ctrl/Cmd+Z = undo, Ctrl/Cmd+Shift+Z = redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isMod = e.ctrlKey || e.metaKey;
+      if (!isMod) return;
+      if (e.key === "z" || e.key === "Z") {
+        if (e.shiftKey) {
+          e.preventDefault();
+          redo();
+        } else {
+          e.preventDefault();
+          undo();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [undo, redo]);
 
   // Pinch to scale selected item (mobile only)
   const handlePinchScale = useCallback((itemId: string, delta: number) => {
@@ -178,7 +202,26 @@ export default function MiniroomPage() {
             {isMobile ? "Tap to select • Pinch to resize" : "Drag to move • Double click to remove"}
           </p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          {/* Undo / Redo buttons (desktop) */}
+          <div className="hidden md:flex gap-1">
+            <button
+              onClick={undo}
+              disabled={!canUndo}
+              className="flex items-center justify-center w-9 h-9 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-sm text-base"
+              title="Undo (Ctrl+Z)"
+            >
+              ↩
+            </button>
+            <button
+              onClick={redo}
+              disabled={!canRedo}
+              className="flex items-center justify-center w-9 h-9 bg-white border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition disabled:opacity-40 disabled:cursor-not-allowed shadow-sm text-base"
+              title="Redo (Ctrl+Shift+Z)"
+            >
+              ↪
+            </button>
+          </div>
           <button
             onClick={() => setIsTemplateOpen(true)}
             className="flex items-center gap-1 px-3 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition shadow-sm"
@@ -232,6 +275,7 @@ export default function MiniroomPage() {
             room={room}
             availableItems={AVAILABLE_ITEMS}
             onUpdateItem={moveItem}
+            onEndDrag={endDrag}
             onDeleteItem={deleteItem}
             selectedItemId={selectedItemId}
             onSelectItem={selectItem}
@@ -258,6 +302,10 @@ export default function MiniroomPage() {
             onSendBackward={handleMobileSendBackward}
             onDelete={handleMobileDelete}
             onDeselect={handleDeselect}
+            onUndo={undo}
+            onRedo={redo}
+            canUndo={canUndo}
+            canRedo={canRedo}
           />
         </div>
         <Inventory

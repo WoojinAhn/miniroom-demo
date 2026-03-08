@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.13.0";
+export const APP_VERSION = "v1.14.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.14.0",
+        date: "2026-03-08",
+        features: [
+            "Undo / Redo: Ctrl+Z / Ctrl+Shift+Z (Cmd on Mac) with desktop header and mobile control panel buttons",
+        ],
+        fixes: [],
+    },
     {
         version: "v1.13.0",
         date: "2026-03-08",

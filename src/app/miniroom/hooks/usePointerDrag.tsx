@@ -2,19 +2,30 @@
 
 import { useRef, useCallback, useEffect } from "react";
 
-export const usePointerDrag = (onDrag: (dx: number, dy: number) => void) => {
+export const usePointerDrag = (
+    onDrag: (dx: number, dy: number) => void,
+    onDragEnd?: () => void
+) => {
     const isDragging = useRef(false);
     const lastPos = useRef({ x: 0, y: 0 });
 
     const onDragRef = useRef(onDrag);
+    const onDragEndRef = useRef(onDragEnd);
 
-    // Update the ref whenever onDrag changes
+    // Update the refs whenever callbacks change
     useEffect(() => {
         onDragRef.current = onDrag;
     }, [onDrag]);
 
+    useEffect(() => {
+        onDragEndRef.current = onDragEnd;
+    }, [onDragEnd]);
+
     const handlePointerUp = useCallback(() => {
-        isDragging.current = false;
+        if (isDragging.current) {
+            isDragging.current = false;
+            onDragEndRef.current?.();
+        }
         window.removeEventListener("pointermove", handlePointerMove);
         window.removeEventListener("pointerup", handlePointerUp);
     }, []);

@@ -8,6 +8,7 @@ interface RoomCanvasProps {
     room: Room;
     availableItems: Item[];
     onUpdateItem: (id: string, x: number, y: number) => void;
+    onEndDrag?: () => void;
     onDeleteItem: (id: string) => void;
     selectedItemId: string | null;
     onSelectItem: (id: string) => void;
@@ -26,6 +27,7 @@ export const RoomCanvas = ({
     room,
     availableItems,
     onUpdateItem,
+    onEndDrag,
     onDeleteItem,
     selectedItemId,
     onSelectItem,
@@ -111,6 +113,7 @@ export const RoomCanvas = ({
                             item={item}
                             itemDef={itemDef}
                             onUpdate={onUpdateItem}
+                            onEndDrag={onEndDrag}
                             onDelete={onDeleteItem}
                             bounds={{ width, height }}
                             isSelected={selectedItemId === item.instanceId}

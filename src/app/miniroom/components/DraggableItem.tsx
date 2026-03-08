@@ -14,6 +14,7 @@ interface DraggableItemProps {
     item: PlacedItem;
     itemDef: Item;
     onUpdate: (id: string, x: number, y: number) => void;
+    onEndDrag?: () => void;
     onDelete: (id: string) => void;
     bounds: { width: number; height: number };
     isSelected: boolean;
@@ -31,6 +32,7 @@ export const DraggableItem = ({
     item,
     itemDef,
     onUpdate,
+    onEndDrag,
     onDelete,
     bounds,
     isSelected,
@@ -91,7 +93,7 @@ export const DraggableItem = ({
         onUpdate(item.instanceId, newX, newY);
     };
 
-    const { onPointerDown } = usePointerDrag(handleDrag);
+    const { onPointerDown } = usePointerDrag(handleDrag, onEndDrag);
 
     return (
         <div

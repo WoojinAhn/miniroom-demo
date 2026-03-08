@@ -7,6 +7,7 @@ import { PresetTemplate } from "@/data/presetTemplates";
 import { v4 as uuidv4 } from "uuid";
 
 const STORAGE_KEY = "miniroom_room_state";
+const HISTORY_LIMIT = 50;
 
 interface PersistedState {
     version: string;
@@ -46,6 +47,42 @@ function buildInitialRoom(): Room {
 export const useMiniroom = () => {
     const [room, setRoom] = useState<Room>(buildInitialRoom);
 
+    // History stack — useRef to avoid re-renders on history changes
+    const historyRef = useRef<Room[]>([]);
+    const historyIndexRef = useRef<number>(-1);
+    // Tracks whether canUndo/canRedo should trigger a re-render
+    const [historySize, setHistorySize] = useState(0);
+
+    // Push current room to history before applying a new state
+    const pushHistory = useCallback((snapshot: Room) => {
+        const history = historyRef.current;
+        const index = historyIndexRef.current;
+
+        // Drop any redo states beyond current index
+        const trimmed = history.slice(0, index + 1);
+        trimmed.push(snapshot);
+
+        // Cap at HISTORY_LIMIT
+        if (trimmed.length > HISTORY_LIMIT) {
+            trimmed.shift();
+        }
+
+        historyRef.current = trimmed;
+        historyIndexRef.current = trimmed.length - 1;
+        setHistorySize(trimmed.length);
+    }, []);
+
+    // Wrap setRoom for discrete actions (non-drag)
+    const setRoomWithHistory = useCallback(
+        (updater: (prev: Room) => Room) => {
+            setRoom((prev) => {
+                pushHistory(prev);
+                return updater(prev);
+            });
+        },
+        [pushHistory]
+    );
+
     // Debounced save to localStorage on every room change
     const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     useEffect(() => {
@@ -70,6 +107,44 @@ export const useMiniroom = () => {
         [room.backgroundId]
     );
 
+    // Drag snapshot: snapshot taken at drag start, not on every move
+    const dragSnapshotRef = useRef<Room | null>(null);
+
+    const beginDrag = useCallback((snapshot: Room) => {
+        // Only record once per drag gesture
+        if (dragSnapshotRef.current === null) {
+            dragSnapshotRef.current = snapshot;
+        }
+    }, []);
+
+    const commitDrag = useCallback(() => {
+        if (dragSnapshotRef.current !== null) {
+            pushHistory(dragSnapshotRef.current);
+            dragSnapshotRef.current = null;
+        }
+    }, [pushHistory]);
+
+    const undo = useCallback(() => {
+        const index = historyIndexRef.current;
+        if (index < 0) return;
+
+        const snapshot = historyRef.current[index];
+        historyIndexRef.current = index - 1;
+        setHistorySize(historyRef.current.length); // trigger re-render for canUndo/canRedo
+        setRoom(snapshot);
+    }, []);
+
+    const redo = useCallback(() => {
+        const history = historyRef.current;
+        const index = historyIndexRef.current;
+        if (index >= history.length - 1) return;
+
+        const snapshot = history[index + 1];
+        historyIndexRef.current = index + 1;
+        setHistorySize(history.length);
+        setRoom(snapshot);
+    }, []);
+
     const placeItem = useCallback(
         (itemId: string) => {
             const itemDef = AVAILABLE_ITEMS.find((i) => i.id === itemId);
@@ -92,26 +167,34 @@ export const useMiniroom = () => {
                 scale: 1,
             };
 
-            setRoom((prev) => ({
+            setRoomWithHistory((prev) => ({
                 ...prev,
                 items: [...prev.items, newItem], // Push to end (top layer)
             }));
             setSelectedItemId(newItem.instanceId);
         },
-        [currentBackground]
+        [currentBackground, setRoomWithHistory]
     );
 
     const moveItem = useCallback((instanceId: string, x: number, y: number) => {
-        setRoom((prev) => ({
-            ...prev,
-            items: prev.items.map((item) =>
-                item.instanceId === instanceId ? { ...item, posX: x, posY: y } : item
-            ),
-        }));
-    }, []);
+        setRoom((prev) => {
+            // Snapshot before the drag begins (only first call per drag)
+            beginDrag(prev);
+            return {
+                ...prev,
+                items: prev.items.map((item) =>
+                    item.instanceId === instanceId ? { ...item, posX: x, posY: y } : item
+                ),
+            };
+        });
+    }, [beginDrag]);
+
+    const endDrag = useCallback(() => {
+        commitDrag();
+    }, [commitDrag]);
 
     const deleteItem = useCallback((instanceId: string) => {
-        setRoom((prev) => {
+        setRoomWithHistory((prev) => {
             const itemToDelete = prev.items.find((i) => i.instanceId === instanceId);
             if (!itemToDelete) return prev;
 
@@ -130,10 +213,10 @@ export const useMiniroom = () => {
         if (selectedItemId === instanceId) {
             setSelectedItemId(null);
         }
-    }, [selectedItemId]);
+    }, [selectedItemId, setRoomWithHistory]);
 
     const rotateItem = useCallback((instanceId: string) => {
-        setRoom((prev) => ({
+        setRoomWithHistory((prev) => ({
             ...prev,
             items: prev.items.map((item) =>
                 item.instanceId === instanceId
@@ -141,10 +224,10 @@ export const useMiniroom = () => {
                     : item
             ),
         }));
-    }, []);
+    }, [setRoomWithHistory]);
 
     const flipItem = useCallback((instanceId: string) => {
-        setRoom((prev) => ({
+        setRoomWithHistory((prev) => ({
             ...prev,
             items: prev.items.map((item) =>
                 item.instanceId === instanceId
@@ -152,11 +235,11 @@ export const useMiniroom = () => {
                     : item
             ),
         }));
-    }, []);
+    }, [setRoomWithHistory]);
 
     const scaleItem = useCallback(
         (instanceId: string, delta: number) => {
-            setRoom((prev) => ({
+            setRoomWithHistory((prev) => ({
                 ...prev,
                 items: prev.items.map((item) =>
                     item.instanceId === instanceId
@@ -168,26 +251,26 @@ export const useMiniroom = () => {
                 ),
             }));
         },
-        []
+        [setRoomWithHistory]
     );
 
     const setBackground = useCallback((bgId: string) => {
         const bgDef = BACKGROUNDS.find((b) => b.id === bgId);
         if (!bgDef) return;
 
-        setRoom((prev) => ({
+        setRoomWithHistory((prev) => ({
             ...prev,
             backgroundId: bgId,
             background: bgDef.url, // Sync URL for canvas
         }));
-    }, []);
+    }, [setRoomWithHistory]);
 
     const selectItem = useCallback((instanceId: string | null) => {
         setSelectedItemId(instanceId);
     }, []);
 
     const bringForward = useCallback((instanceId: string) => {
-        setRoom((prev) => {
+        setRoomWithHistory((prev) => {
             const items = [...prev.items];
             const index = items.findIndex((i) => i.instanceId === instanceId);
             if (index === -1 || index === items.length - 1) return prev; // Already at top
@@ -195,10 +278,10 @@ export const useMiniroom = () => {
             [items[index], items[index + 1]] = [items[index + 1], items[index]];
             return { ...prev, items };
         });
-    }, []);
+    }, [setRoomWithHistory]);
 
     const sendBackward = useCallback((instanceId: string) => {
-        setRoom((prev) => {
+        setRoomWithHistory((prev) => {
             const items = [...prev.items];
             const index = items.findIndex((i) => i.instanceId === instanceId);
             if (index <= 0) return prev; // Already at bottom
@@ -206,7 +289,13 @@ export const useMiniroom = () => {
             [items[index - 1], items[index]] = [items[index], items[index - 1]];
             return { ...prev, items };
         });
-    }, []);
+    }, [setRoomWithHistory]);
+
+    // canUndo/canRedo depend on historySize (updated on each push/undo/redo)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const _historySize = historySize; // keep reactive dependency
+    const undoAvailable = historyIndexRef.current >= 0;
+    const redoAvailable = historyIndexRef.current < historyRef.current.length - 1;
 
     const loadTemplate = useCallback((template: PresetTemplate) => {
         const bgDef = BACKGROUNDS.find((b) => b.id === template.backgroundId) || BACKGROUNDS[0];
@@ -219,7 +308,7 @@ export const useMiniroom = () => {
             isFlipped: item.isFlipped,
             scale: item.scale,
         }));
-        setRoom((prev) => ({
+        setRoomWithHistory((prev) => ({
             ...prev,
             backgroundId: bgDef.id,
             background: bgDef.url,
@@ -227,7 +316,7 @@ export const useMiniroom = () => {
             lastUpdated: new Date().toISOString(),
         }));
         setSelectedItemId(null);
-    }, []);
+    }, [setRoomWithHistory]);
 
     return {
         room,
@@ -235,6 +324,7 @@ export const useMiniroom = () => {
         selectItem,
         placeItem,
         moveItem,
+        endDrag,
         rotateItem,
         flipItem,
         scaleItem,
@@ -244,5 +334,9 @@ export const useMiniroom = () => {
         setBackground,
         currentBackground,
         loadTemplate,
+        undo,
+        redo,
+        canUndo: undoAvailable,
+        canRedo: redoAvailable,
     };
 };

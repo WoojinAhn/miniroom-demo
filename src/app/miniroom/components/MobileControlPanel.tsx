@@ -10,6 +10,10 @@ interface MobileControlPanelProps {
     onSendBackward: () => void;
     onDelete: () => void;
     onDeselect: () => void;
+    onUndo: () => void;
+    onRedo: () => void;
+    canUndo: boolean;
+    canRedo: boolean;
 }
 
 export const MobileControlPanel = ({
@@ -22,12 +26,36 @@ export const MobileControlPanel = ({
     onSendBackward,
     onDelete,
     onDeselect,
+    onUndo,
+    onRedo,
+    canUndo,
+    canRedo,
 }: MobileControlPanelProps) => {
     if (!isVisible) return null;
 
     return (
         <div className="md:hidden bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200 shadow-inner">
             <div className="flex items-center justify-between px-4 py-3 gap-2">
+                {/* Undo / Redo */}
+                <div className="flex items-center gap-1">
+                    <button
+                        onClick={onUndo}
+                        disabled={!canUndo}
+                        className="flex items-center justify-center w-11 h-11 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-xl text-gray-700 text-lg font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        title="실행 취소"
+                    >
+                        ↩
+                    </button>
+                    <button
+                        onClick={onRedo}
+                        disabled={!canRedo}
+                        className="flex items-center justify-center w-11 h-11 bg-gray-100 hover:bg-gray-200 active:bg-gray-300 rounded-xl text-gray-700 text-lg font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                        title="다시 실행"
+                    >
+                        ↪
+                    </button>
+                </div>
+
                 {/* Transform Group */}
                 <div className="flex items-center gap-1">
                     <button
