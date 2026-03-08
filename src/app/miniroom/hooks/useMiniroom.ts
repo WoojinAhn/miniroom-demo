@@ -3,6 +3,7 @@ import { Room, PlacedItem } from "@/types/miniroom";
 import { AVAILABLE_ITEMS, INITIAL_ROOM } from "@/data/mockMiniroom";
 import { BACKGROUNDS, DEFAULT_BACKGROUND_ID } from "@/data/backgrounds";
 import { APP_VERSION } from "@/config/appVersion";
+import { PresetTemplate } from "@/data/presetTemplates";
 import { v4 as uuidv4 } from "uuid";
 
 const STORAGE_KEY = "miniroom_room_state";
@@ -207,6 +208,27 @@ export const useMiniroom = () => {
         });
     }, []);
 
+    const loadTemplate = useCallback((template: PresetTemplate) => {
+        const bgDef = BACKGROUNDS.find((b) => b.id === template.backgroundId) || BACKGROUNDS[0];
+        const newItems: PlacedItem[] = template.items.map((item) => ({
+            instanceId: uuidv4(),
+            itemId: item.itemId,
+            posX: item.posX,
+            posY: item.posY,
+            rotation: item.rotation,
+            isFlipped: item.isFlipped,
+            scale: item.scale,
+        }));
+        setRoom((prev) => ({
+            ...prev,
+            backgroundId: bgDef.id,
+            background: bgDef.url,
+            items: newItems,
+            lastUpdated: new Date().toISOString(),
+        }));
+        setSelectedItemId(null);
+    }, []);
+
     return {
         room,
         selectedItemId,
@@ -221,5 +243,6 @@ export const useMiniroom = () => {
         sendBackward,
         setBackground,
         currentBackground,
+        loadTemplate,
     };
 };

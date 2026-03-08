@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.12.0";
+export const APP_VERSION = "v1.13.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.13.0",
+        date: "2026-03-08",
+        features: [
+            "Preset Room Templates: 4 pre-decorated room templates (Cozy Bedroom, Camping Outdoor, Minimalist Studio, Ramen Kitchen) for new users",
+        ],
+        fixes: [],
+    },
     {
         version: "v1.12.0",
         date: "2026-03-08",

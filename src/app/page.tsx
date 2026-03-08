@@ -5,6 +5,7 @@ import { useMiniroom } from "@/app/miniroom/hooks/useMiniroom";
 import { RoomCanvas } from "@/app/miniroom/components/RoomCanvas";
 import { Inventory } from "@/app/miniroom/components/Inventory";
 import { ChangelogModal } from "@/app/miniroom/components/ChangelogModal";
+import { TemplateModal } from "@/app/miniroom/components/TemplateModal";
 import { MobileControlPanel } from "@/app/miniroom/components/MobileControlPanel";
 import { useItemPinchScale } from "@/app/miniroom/hooks/useItemPinchScale";
 import { APP_VERSION, CHANGELOG } from "@/config/appVersion";
@@ -13,6 +14,7 @@ import { BACKGROUNDS } from "@/data/backgrounds";
 
 export default function MiniroomPage() {
   const [isChangelogOpen, setIsChangelogOpen] = useState(false);
+  const [isTemplateOpen, setIsTemplateOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
   const canvasInnerRef = useRef<HTMLDivElement | null>(null);
@@ -31,6 +33,7 @@ export default function MiniroomPage() {
     sendBackward,
     setBackground,
     currentBackground,
+    loadTemplate,
   } = useMiniroom();
 
   // Detect mobile on mount
@@ -177,6 +180,13 @@ export default function MiniroomPage() {
         </div>
         <div className="flex gap-2">
           <button
+            onClick={() => setIsTemplateOpen(true)}
+            className="flex items-center gap-1 px-3 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition shadow-sm"
+            title="Load a preset room template"
+          >
+            Templates
+          </button>
+          <button
             onClick={handleDownload}
             disabled={isCapturing}
             className="flex items-center gap-1 px-3 py-2 bg-white border border-gray-300 text-gray-700 text-sm font-medium rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
@@ -255,6 +265,13 @@ export default function MiniroomPage() {
           onAddItem={placeItem}
         />
       </main>
+
+      {/* Template Modal */}
+      <TemplateModal
+        isOpen={isTemplateOpen}
+        onClose={() => setIsTemplateOpen(false)}
+        onSelect={loadTemplate}
+      />
 
       {/* Changelog Modal */}
       <ChangelogModal
