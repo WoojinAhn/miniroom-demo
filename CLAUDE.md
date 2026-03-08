@@ -73,6 +73,14 @@ Every significant change requires a version bump in `src/config/appVersion.ts`. 
 - Must have `type: 'character'` — hidden from inventory, cannot be deleted via double-click
 - Default character (`cha01`) is placed in room center in `INITIAL_ROOM`
 
+### Pre-close Verification
+
+Before closing an issue, run verification based on the change scope:
+- **UI/interaction/logic changes**: run full E2E suite (`npm run test:e2e`)
+- **Config, docs, assets, or styling-only changes**: run `npm run build` only
+
+Update or add E2E test cases when the change introduces new user-facing behavior or modifies existing interactions.
+
 ### Commit Convention
 
 AI IDE commits use prefix format: `[Claude] type: description` (e.g., `[Claude] feat: add new item`). Human commits use standard format without prefix.
