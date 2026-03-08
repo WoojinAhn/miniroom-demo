@@ -18,7 +18,7 @@ Create your own retro **Dotori World** style miniroom!
 *   **🛠️ Item Transformation**:
     *   **Rotate**: Rotate selected items 90 degrees clockwise.
     *   **Flip**: Flip items horizontally.
-    *   **Resize**: Use `+`/`-` buttons in the toolbar to scale items (0.5x ~ 2.0x).
+    *   **Resize**: Use `+`/`-` buttons in the toolbar to scale items (min 0.2x, no upper limit).
     *   **Layering**: Adjust Z-order with `⬆` (Bring Forward) and `⬇` (Send Backward) buttons.
 *   **📱 Mobile Support**:
     *   **Touch-friendly Control Panel**: Fixed bottom toolbar for easy item manipulation on mobile.
@@ -82,16 +82,21 @@ Images added to `public/special/` will appear in the **Special Items** section a
 ```
 src/
 ├── app/
-│   ├── page.tsx               # Main Page (Miniroom)
+│   ├── page.tsx                    # Main Page (Miniroom)
 │   └── miniroom/
-│       ├── components/        # UI Components
-│       │   ├── RoomCanvas.tsx     # Main Canvas
-│       │   ├── DraggableItem.tsx  # Draggable Item Logic
-│       │   └── Inventory.tsx      # Inventory List
+│       ├── components/
+│       │   ├── RoomCanvas.tsx          # Responsive Canvas
+│       │   ├── DraggableItem.tsx       # Draggable Item + Toolbar
+│       │   ├── Inventory.tsx           # Item Picker
+│       │   ├── MobileControlPanel.tsx  # Touch Controls (<768px)
+│       │   └── ChangelogModal.tsx      # Version History
 │       └── hooks/
-│           └── useMiniroom.ts     # Core Logic (State, Move, Delete)
-├── types/                     # Type Definitions (Room, Item, Transformation)
-└── data/                      # Mock Data (Initial Items)
+│           ├── useMiniroom.ts          # Core State & Actions
+│           ├── usePointerDrag.tsx      # Pointer Drag Handling
+│           └── useItemPinchScale.ts    # Mobile Pinch-to-Scale
+├── config/                         # App Version & Changelog
+├── types/                          # Type Definitions
+└── data/                           # Item Data & Backgrounds
 ```
 
 ## 📝 License

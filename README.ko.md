@@ -18,7 +18,7 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 *   **🛠️ 아이템 변형 (Transformation)**:
     *   **회전 (Rotate)**: 선택된 아이템을 시계 방향으로 90도씩 회전시킵니다.
     *   **반전 (Flip)**: 좌우 대칭으로 반전시킬 수 있습니다.
-    *   **크기 조절 (Resize)**: 툴바의 `+`, `-` 버튼으로 아이템 크기를 조절합니다 (0.5배 ~ 2.0배).
+    *   **크기 조절 (Resize)**: 툴바의 `+`, `-` 버튼으로 아이템 크기를 조절합니다 (최소 0.2배, 상한 없음).
     *   **순서 변경 (Ordering)**: `⬆` (앞으로), `⬇` (뒤로) 버튼으로 아이템 겹침 순서를 조정합니다.
 *   **📱 모바일 지원**:
     *   **터치 친화적 컨트롤 패널**: 하단에 고정된 큰 버튼으로 모바일에서 쉽게 조작할 수 있습니다.
@@ -82,16 +82,21 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 ```
 src/
 ├── app/
-│   ├── page.tsx               # 메인 페이지 (미니룸)
+│   ├── page.tsx                    # 메인 페이지 (미니룸)
 │   └── miniroom/
-│       ├── components/        # UI 컴포넌트
-│       │   ├── RoomCanvas.tsx     # 메인 캔버스
-│       │   ├── DraggableItem.tsx  # 개별 아이템 (드래그/회전 로직)
-│       │   └── Inventory.tsx      # 아이템 목록
+│       ├── components/
+│       │   ├── RoomCanvas.tsx          # 반응형 캔버스
+│       │   ├── DraggableItem.tsx       # 드래그 아이템 + 툴바
+│       │   ├── Inventory.tsx           # 아이템 목록
+│       │   ├── MobileControlPanel.tsx  # 터치 컨트롤 (<768px)
+│       │   └── ChangelogModal.tsx      # 버전 히스토리
 │       └── hooks/
-│           └── useMiniroom.ts     # 핵심 로직 (상태 관리, 이동, 삭제)
-├── types/                     # 타입 정의 (Room, Item, Transformation)
-└── data/                      # 목업 데이터 (초기 아이템 등)
+│           ├── useMiniroom.ts          # 핵심 상태 및 액션
+│           ├── usePointerDrag.tsx      # 포인터 드래그 처리
+│           └── useItemPinchScale.ts    # 모바일 핀치 줌
+├── config/                         # 앱 버전 및 변경 로그
+├── types/                          # 타입 정의
+└── data/                           # 아이템 데이터 및 배경
 ```
 
 ## 📝 라이선스
