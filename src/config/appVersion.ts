@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.10.1";
+export const APP_VERSION = "v1.11.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.11.0",
+        date: "2026-03-08",
+        features: [
+            "Auto-save to LocalStorage: Room state is now persisted across page refreshes (debounced 500ms)",
+        ],
+        fixes: [],
+    },
     {
         version: "v1.10.1",
         date: "2026-01-10",

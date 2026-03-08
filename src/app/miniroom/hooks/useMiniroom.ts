@@ -1,19 +1,67 @@
-import { useState, useCallback, useMemo } from "react";
+import { useState, useCallback, useMemo, useEffect, useRef } from "react";
 import { Room, PlacedItem } from "@/types/miniroom";
 import { AVAILABLE_ITEMS, INITIAL_ROOM } from "@/data/mockMiniroom";
 import { BACKGROUNDS, DEFAULT_BACKGROUND_ID } from "@/data/backgrounds";
+import { APP_VERSION } from "@/config/appVersion";
 import { v4 as uuidv4 } from "uuid";
 
+const STORAGE_KEY = "miniroom_room_state";
+
+interface PersistedState {
+    version: string;
+    room: Room;
+}
+
+function loadRoomFromStorage(): Room | null {
+    try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return null;
+        const parsed: PersistedState = JSON.parse(raw);
+        if (!parsed.room || !parsed.version) return null;
+        return parsed.room;
+    } catch {
+        return null;
+    }
+}
+
+function buildInitialRoom(): Room {
+    const saved = loadRoomFromStorage();
+    if (saved) {
+        // Ensure background URL is in sync with the background definition
+        const bgId = saved.backgroundId || DEFAULT_BACKGROUND_ID;
+        const bg = BACKGROUNDS.find((b) => b.id === bgId) || BACKGROUNDS[0];
+        return { ...saved, backgroundId: bgId, background: bg.url };
+    }
+
+    const initialBgId = INITIAL_ROOM.backgroundId || DEFAULT_BACKGROUND_ID;
+    const initialBackground = BACKGROUNDS.find((b) => b.id === initialBgId) || BACKGROUNDS[0];
+    return {
+        ...INITIAL_ROOM,
+        backgroundId: initialBgId,
+        background: initialBackground.url,
+    };
+}
+
 export const useMiniroom = () => {
-    const [room, setRoom] = useState<Room>(() => {
-        const initialBgId = INITIAL_ROOM.backgroundId || DEFAULT_BACKGROUND_ID;
-        const initialBackground = BACKGROUNDS.find((b) => b.id === initialBgId) || BACKGROUNDS[0];
-        return {
-            ...INITIAL_ROOM,
-            backgroundId: initialBgId,
-            background: initialBackground.url,
+    const [room, setRoom] = useState<Room>(buildInitialRoom);
+
+    // Debounced save to localStorage on every room change
+    const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    useEffect(() => {
+        if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
+        saveTimerRef.current = setTimeout(() => {
+            try {
+                const state: PersistedState = { version: APP_VERSION, room };
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+            } catch {
+                // localStorage may be unavailable (e.g., private browsing quota exceeded)
+            }
+        }, 500);
+        return () => {
+            if (saveTimerRef.current) clearTimeout(saveTimerRef.current);
         };
-    });
+    }, [room]);
+
     const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
     const currentBackground = useMemo(
