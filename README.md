@@ -24,6 +24,8 @@ Create your own retro **Dotori World** style miniroom!
     *   **Touch-friendly Control Panel**: Fixed bottom toolbar for easy item manipulation on mobile.
     *   **Pinch to Resize**: Two-finger pinch gesture to scale selected items.
     *   **Responsive Layout**: Canvas and inventory adapt to screen size.
+*   **🖼️ Background Selection**: Choose from multiple backgrounds (Grass Field, My Room, Universe).
+*   **🧑 Characters**: A default character is placed in the room. Characters cannot be deleted and are hidden from the inventory.
 *   **🎲 Random Placement**: Items are placed at random positions to avoid overlap confusion.
 *   **💾 Item Management**:
     *   **Precise Selection**: Selection outlines strictly follow the visible pixels of the item.
@@ -33,7 +35,7 @@ Create your own retro **Dotori World** style miniroom!
 
 *   **Framework**: Next.js 16 (App Router)
 *   **Language**: TypeScript
-*   **Styling**: Tailwind CSS
+*   **Styling**: Tailwind CSS v4
 *   **Deploy**: Vercel (CI/CD Automated)
 
 ## 🚀 Getting Started
