@@ -27,6 +27,13 @@ npm run test:e2e:ui
 
 Verify `npm run build` passes before committing. E2E tests are in `e2e/` using Playwright (port 3001).
 
+### Writing E2E Tests
+
+- Canvas items have `pointerEvents: "none"` on `<img>` — use `force: true` when clicking/double-clicking items by their img selector (e.g., `.click({ force: true })`)
+- Canvas inner container: `page.locator("main").locator("[style*='background']").first()`
+- Inventory items: use `page.getByRole("button", { name: "Item Name" })` — button text includes both img alt and label
+- Item count in canvas: `canvasInner.locator("> div").count()`
+
 ## Architecture
 
 ### Data Flow
