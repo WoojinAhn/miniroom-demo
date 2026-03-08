@@ -86,7 +86,7 @@ Before closing an issue, run verification based on the change scope:
 - **UI/interaction/logic changes**: run full E2E suite (`npm run test:e2e`)
 - **Config, docs, assets, or styling-only changes**: run `npm run build` only
 
-Update or add E2E test cases when the change introduces new user-facing behavior or modifies existing interactions.
+Every new feature or behavior change must include relevant E2E test cases in the same commit/PR. Bug fixes should add a test if the bug was reproducible via UI interaction.
 
 ### Commit Convention
 
