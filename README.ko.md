@@ -27,6 +27,10 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 *   **🖼️ 배경 선택**: 다양한 배경(잔디밭, 마이룸, 우주) 중 선택할 수 있습니다.
 *   **🧑 캐릭터**: 기본 캐릭터가 방에 배치됩니다. 캐릭터는 삭제할 수 없으며 인벤토리에 표시되지 않습니다.
 *   **🎲 랜덤 배치**: 아이템이 랜덤한 위치에 배치되어 중복 배치 시 헷갈림을 방지합니다.
+*   **💾 자동 저장**: 방 상태가 LocalStorage에 자동 저장(500ms 디바운스)되어 새로고침 후에도 유지됩니다.
+*   **📸 스크린샷 & 공유**: 방을 PNG로 다운로드하거나 Web Share API(모바일) / 클립보드(데스크톱)로 공유할 수 있습니다.
+*   **↩️ 실행 취소 / 다시 실행**: Ctrl+Z / Ctrl+Shift+Z (Mac: Cmd)로 되돌리기/다시실행. 데스크톱 헤더 및 모바일 컨트롤 패널 버튼도 지원합니다.
+*   **🏠 프리셋 템플릿**: 4개의 미리 꾸며진 방 템플릿(아늑한 침실, 캠핑 아웃도어, 미니멀 스튜디오, 라면 주방)으로 빠르게 시작할 수 있습니다.
 *   **💾 아이템 관리**:
     *   **정교한 선택**: 이미지의 실제 모양(투명도 기반)에 맞춰 선택 영역이 잡힙니다.
     *   **삭제**: 더블 클릭하거나 선택 후 삭제 버튼을 눌러 제거합니다.
@@ -36,6 +40,7 @@ Next.js와 TypeScript로 구현한 **드래그 앤 드롭 방 꾸미기** 프로
 *   **Framework**: Next.js 16 (App Router)
 *   **Language**: TypeScript
 *   **Styling**: Tailwind CSS v4
+*   **Testing**: Playwright (E2E)
 *   **Deploy**: Vercel (CI/CD Automated)
 
 ## 🚀 실행 방법 (Getting Started)
@@ -91,14 +96,17 @@ src/
 │       │   ├── DraggableItem.tsx       # 드래그 아이템 + 툴바
 │       │   ├── Inventory.tsx           # 아이템 목록
 │       │   ├── MobileControlPanel.tsx  # 터치 컨트롤 (<768px)
-│       │   └── ChangelogModal.tsx      # 버전 히스토리
+│       │   ├── ChangelogModal.tsx      # 버전 히스토리
+│       │   └── TemplateModal.tsx       # 프리셋 방 템플릿
 │       └── hooks/
 │           ├── useMiniroom.ts          # 핵심 상태 및 액션
 │           ├── usePointerDrag.tsx      # 포인터 드래그 처리
 │           └── useItemPinchScale.ts    # 모바일 핀치 줌
 ├── config/                         # 앱 버전 및 변경 로그
 ├── types/                          # 타입 정의
-└── data/                           # 아이템 데이터 및 배경
+└── data/                           # 아이템 데이터, 배경 및 템플릿
+e2e/
+└── miniroom.spec.ts                # E2E 테스트 (Playwright)
 ```
 
 ## 📝 라이선스

@@ -27,6 +27,10 @@ Create your own retro **Dotori World** style miniroom!
 *   **🖼️ Background Selection**: Choose from multiple backgrounds (Grass Field, My Room, Universe).
 *   **🧑 Characters**: A default character is placed in the room. Characters cannot be deleted and are hidden from the inventory.
 *   **🎲 Random Placement**: Items are placed at random positions to avoid overlap confusion.
+*   **💾 Auto-save**: Room state is automatically saved to LocalStorage (debounced 500ms) and restored on page load.
+*   **📸 Screenshot & Share**: Download your room as PNG or share via Web Share API (mobile) / clipboard (desktop).
+*   **↩️ Undo / Redo**: Ctrl+Z / Ctrl+Shift+Z (Cmd on Mac) with header buttons on desktop and mobile control panel.
+*   **🏠 Preset Templates**: 4 pre-decorated room templates (Cozy Bedroom, Camping Outdoor, Minimalist Studio, Ramen Kitchen) to get started quickly.
 *   **💾 Item Management**:
     *   **Precise Selection**: Selection outlines strictly follow the visible pixels of the item.
     *   **Delete**: Remove items by double-clicking or using the delete button.
@@ -36,6 +40,7 @@ Create your own retro **Dotori World** style miniroom!
 *   **Framework**: Next.js 16 (App Router)
 *   **Language**: TypeScript
 *   **Styling**: Tailwind CSS v4
+*   **Testing**: Playwright (E2E)
 *   **Deploy**: Vercel (CI/CD Automated)
 
 ## 🚀 Getting Started
@@ -91,14 +96,17 @@ src/
 │       │   ├── DraggableItem.tsx       # Draggable Item + Toolbar
 │       │   ├── Inventory.tsx           # Item Picker
 │       │   ├── MobileControlPanel.tsx  # Touch Controls (<768px)
-│       │   └── ChangelogModal.tsx      # Version History
+│       │   ├── ChangelogModal.tsx      # Version History
+│       │   └── TemplateModal.tsx       # Preset Room Templates
 │       └── hooks/
 │           ├── useMiniroom.ts          # Core State & Actions
 │           ├── usePointerDrag.tsx      # Pointer Drag Handling
 │           └── useItemPinchScale.ts    # Mobile Pinch-to-Scale
 ├── config/                         # App Version & Changelog
 ├── types/                          # Type Definitions
-└── data/                           # Item Data & Backgrounds
+└── data/                           # Item Data, Backgrounds & Templates
+e2e/
+└── miniroom.spec.ts                # E2E Tests (Playwright)
 ```
 
 ## 📝 License
