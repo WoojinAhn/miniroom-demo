@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.14.2";
+export const APP_VERSION = "v1.14.3";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.14.3",
+        date: "2026-03-08",
+        features: [],
+        fixes: [
+            "Refined preset room templates: repositioned items based on room spatial structure (wall/floor zones) with proportionally accurate scaling relative to character size",
+        ],
+    },
     {
         version: "v1.14.2",
         date: "2026-03-08",
