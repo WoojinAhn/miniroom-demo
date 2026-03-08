@@ -17,9 +17,15 @@ npm run build
 
 # Lint
 npm run lint
+
+# E2E tests (Playwright, Chromium only — starts dev server automatically)
+npm run test:e2e
+
+# E2E tests with UI mode
+npm run test:e2e:ui
 ```
 
-There are no tests configured. Verify `npm run build` passes before committing.
+Verify `npm run build` passes before committing. E2E tests are in `e2e/` using Playwright (port 3001).
 
 ## Architecture
 
