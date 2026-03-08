@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.14.1";
+export const APP_VERSION = "v1.14.2";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.14.2",
+        date: "2026-03-08",
+        features: [],
+        fixes: [
+            "Fixed screenshot export: content now fills the entire image with no whitespace (removed CSS transform interference during capture)",
+        ],
+    },
     {
         version: "v1.14.1",
         date: "2026-03-08",

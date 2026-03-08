@@ -114,11 +114,21 @@ export default function MiniroomPage() {
     const el = canvasInnerRef.current;
     if (!el) return null;
 
-    // Temporarily clip overflow and hide border for a clean capture
-    const prevOverflow = el.style.overflow;
-    const prevBorder = el.style.border;
-    el.style.overflow = "hidden";
+    // Temporarily reset styles that distort the capture:
+    // - transform: scale(globalScale) causes content to render at visual size, not native
+    // - transition: would animate the reset, causing a flash
+    // - border: adds extra pixels
+    // - overflow: allows items beyond canvas bounds into the capture
+    const saved = {
+      transform: el.style.transform,
+      transition: el.style.transition,
+      border: el.style.border,
+      overflow: el.style.overflow,
+    };
+    el.style.transform = "none";
+    el.style.transition = "none";
     el.style.border = "none";
+    el.style.overflow = "hidden";
 
     try {
       const html2canvas = (await import("html2canvas")).default;
@@ -130,8 +140,10 @@ export default function MiniroomPage() {
         height: currentBackground.height,
       });
     } finally {
-      el.style.overflow = prevOverflow;
-      el.style.border = prevBorder;
+      el.style.transform = saved.transform;
+      el.style.transition = saved.transition;
+      el.style.border = saved.border;
+      el.style.overflow = saved.overflow;
     }
   };
 

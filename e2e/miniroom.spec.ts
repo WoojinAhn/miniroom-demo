@@ -273,3 +273,32 @@ test.describe("Layer Ordering", () => {
     expect(imgAfter).toBe(imgBefore);
   });
 });
+
+test.describe("Screenshot Export", () => {
+  test("downloaded image matches canvas dimensions exactly", async ({ page }) => {
+    await page.setViewportSize({ width: 1024, height: 768 });
+    await page.goto("/");
+
+    // Listen for the download event
+    const downloadPromise = page.waitForEvent("download");
+    await page.getByRole("button", { name: "Download" }).click();
+    const download = await downloadPromise;
+
+    // Save to temp path and read the PNG dimensions
+    const path = await download.path();
+    expect(path).toBeTruthy();
+
+    // Read PNG header to get image dimensions (bytes 16-23 contain width and height as 4-byte big-endian)
+    const fs = require("fs");
+    const buffer = fs.readFileSync(path);
+    const width = buffer.readUInt32BE(16);
+    const height = buffer.readUInt32BE(18) || buffer.readUInt32BE(20);
+
+    // Default background is "My Room" (750x606)
+    // PNG header: bytes 16-19 = width, bytes 20-23 = height
+    const pngWidth = buffer.readUInt32BE(16);
+    const pngHeight = buffer.readUInt32BE(20);
+    expect(pngWidth).toBe(750);
+    expect(pngHeight).toBe(606);
+  });
+});
