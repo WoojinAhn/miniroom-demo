@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.14.0";
+export const APP_VERSION = "v1.14.1";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.14.1",
+        date: "2026-03-08",
+        features: [],
+        fixes: [
+            "Fixed screenshot export producing images with excessive padding and whitespace",
+        ],
+    },
     {
         version: "v1.14.0",
         date: "2026-03-08",

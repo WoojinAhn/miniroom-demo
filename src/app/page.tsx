@@ -111,17 +111,28 @@ export default function MiniroomPage() {
   };
 
   const captureCanvas = async (): Promise<HTMLCanvasElement | null> => {
-    if (!canvasInnerRef.current) return null;
-    const html2canvas = (await import("html2canvas")).default;
-    return html2canvas(canvasInnerRef.current, {
-      useCORS: true,
-      allowTaint: true,
-      scale: 1,
-      // The inner div is rendered at full canvas resolution (not scaled),
-      // so we capture at native resolution regardless of screen zoom.
-      width: canvasInnerRef.current.offsetWidth,
-      height: canvasInnerRef.current.offsetHeight,
-    });
+    const el = canvasInnerRef.current;
+    if (!el) return null;
+
+    // Temporarily clip overflow and hide border for a clean capture
+    const prevOverflow = el.style.overflow;
+    const prevBorder = el.style.border;
+    el.style.overflow = "hidden";
+    el.style.border = "none";
+
+    try {
+      const html2canvas = (await import("html2canvas")).default;
+      return await html2canvas(el, {
+        useCORS: true,
+        allowTaint: true,
+        scale: 1,
+        width: currentBackground.width,
+        height: currentBackground.height,
+      });
+    } finally {
+      el.style.overflow = prevOverflow;
+      el.style.border = prevBorder;
+    }
   };
 
   const handleDownload = async () => {
