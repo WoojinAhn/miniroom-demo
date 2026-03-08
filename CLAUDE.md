@@ -55,6 +55,7 @@ Verify `npm run build` passes before committing. E2E tests are in `e2e/` using P
 - `src/app/miniroom/components/Inventory.tsx` — item picker (special + general sections)
 - `src/app/miniroom/components/MobileControlPanel.tsx` — touch controls (visible when `width < 768px`)
 - `src/types/miniroom.ts` — `Item`, `PlacedItem`, `Room` interfaces
+- `src/data/presetTemplates.ts` — preset room templates with spatial positioning rules
 - `src/config/appVersion.ts` — `APP_VERSION` and `CHANGELOG` array
 
 ### Path Alias
@@ -74,6 +75,16 @@ Every significant change requires a version bump in `src/config/appVersion.ts`. 
 - `public/special/` — special items
 - Filenames: `snake_case`
 - New assets are auto-registered by `scan-items.js`; special/character items must be manually added in `mockMiniroom.ts`
+
+### Template Placement Rules (bg_room 750×606)
+
+- `transformOrigin: center bottom` — visual bottom = `posY + originalHeight` at any scale
+- **Wall zone (y 60–200)**: ONLY for hung items (clocks, frames, pendant lights)
+- **Floor back row (bottom ≈ y:430)**: standing furniture against back wall
+- **Floor middle (bottom ≈ y:470–480)**: beds, lamps, mid-room items
+- **Floor front (bottom ≈ y:510–530)**: rugs, characters, chairs
+- ALL standing furniture must have visual bottom >= y:420 — nothing floats on walls
+- For `bg_grass` (open field): items at y:300–520, no wall constraints
 
 ### Character Rules
 
