@@ -19,6 +19,7 @@ interface RoomCanvasProps {
     onBackgroundClick: () => void;
     width: number;
     height: number;
+    innerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 export const RoomCanvas = ({
@@ -36,6 +37,7 @@ export const RoomCanvas = ({
     onBackgroundClick,
     width,
     height,
+    innerRef,
 }: RoomCanvasProps) => {
     // Responsive Scaling Logic
     const containerRef = useRef<HTMLDivElement>(null);
@@ -76,6 +78,7 @@ export const RoomCanvas = ({
             }}
         >
             <div
+                ref={innerRef}
                 onPointerDown={(e) => {
                     // Only trigger if clicking the background itself, not a child
                     if (e.target === e.currentTarget) {

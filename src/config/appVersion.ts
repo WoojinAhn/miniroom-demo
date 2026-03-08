@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.11.0";
+export const APP_VERSION = "v1.12.0";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.12.0",
+        date: "2026-03-08",
+        features: [
+            "Screenshot & Share: Download your room as PNG or share via Web Share API (mobile) / clipboard (desktop)",
+        ],
+        fixes: [],
+    },
     {
         version: "v1.11.0",
         date: "2026-03-08",

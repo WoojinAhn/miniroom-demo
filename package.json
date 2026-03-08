@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@types/uuid": "^10.0.0",
+    "html2canvas": "^1.4.1",
     "next": "16.0.10",
     "react": "19.2.1",
     "react-dom": "19.2.1",
