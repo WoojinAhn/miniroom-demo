@@ -5,9 +5,17 @@ export interface ReleaseNote {
     fixes?: string[];
 }
 
-export const APP_VERSION = "v1.14.3";
+export const APP_VERSION = "v1.14.4";
 
 export const CHANGELOG: ReleaseNote[] = [
+    {
+        version: "v1.14.4",
+        date: "2026-03-08",
+        features: [],
+        fixes: [
+            "Fixed template items floating on walls: all standing furniture now grounded on floor plane (bottom >= y:420). Added camping table as kitchen counter in Ramen Kitchen.",
+        ],
+    },
     {
         version: "v1.14.3",
         date: "2026-03-08",
