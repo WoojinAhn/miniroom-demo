@@ -42,3 +42,6 @@ next-env.d.ts
 
 # auto-generated inventory (regenerated on build)
 src/data/generated-inventory.json
+
+# claude code scratch notes
+.claude/
