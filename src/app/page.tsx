@@ -138,6 +138,8 @@ export default function MiniroomPage() {
         scale: 1,
         width: currentBackground.width,
         height: currentBackground.height,
+        windowWidth: currentBackground.width,
+        windowHeight: currentBackground.height,
       });
     } finally {
       el.style.transform = saved.transform;
